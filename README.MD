@@ -7,7 +7,7 @@ templates and reduce boilerplate.
 The template file lives within the project itself, hence your template is still testable, even workable on 
 its own.
 
- CyanPrint is an slightly more robust version of CookieCutter, but in NPM.
+ CyanPrint is an slightly more robust version of CookieCutter in NPM.
  
  # Features
  - Inquirer.js to get data
@@ -22,6 +22,7 @@ its own.
  - Installing templates from Git repositories or local folder
  - Test template generation without installing it
  - Arbitrary Shell command execution
+ - Permute possible outcome for testing
 
 # Existing Templates
 
