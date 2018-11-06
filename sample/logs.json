@@ -1,0 +1,11 @@
+{
+	"packages.chai":       [true, true, true, true],
+	"packages.mocha":      [true, true, true, true],
+	"move.@kirinnee/core": [true, true, true, false],
+	"color.green":         [true, false, false, false],
+	"color.black":         [false, false, true, false],
+	"color.blue":          [false, true, false, false],
+	"fileOne":             [true, true, true, true],
+	"fileTwo":             [true, true, true, true],
+	"fileThree":           [true, true, true, true]
+}

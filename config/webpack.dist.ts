@@ -1,15 +1,14 @@
 import * as path from "path";
 import {opti} from "./webpack.optimizer";
-import webpack from "webpack";
+import webpack, {Entry} from "webpack";
 import {rules} from "./webpack.rules";
-import {Entry} from "webpack";
 import {Kore} from "@kirinnee/core";
 
 let core = new Kore();
 core.ExtendPrimitives();
 
 let entry:Entry = {
-    "cyan": "./src/cyan.ts"
+	"cyan": "./src/cyanprint.ts"
 };
 
 

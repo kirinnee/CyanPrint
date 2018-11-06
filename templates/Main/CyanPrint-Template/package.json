@@ -1,0 +1,25 @@
+{
+	"name":         "cyanprint-cyanprint",
+	"version":      "0.0.1",
+	"description":  "Template for making CyanPrint template",
+	"scripts":      {
+		"build": "webpack"
+	},
+	"repository":   {
+		"type": "git",
+		"url":  "https://github.com/kirinnee/cyan.CyanPrint.git"
+	},
+	"author":       "kirinnee",
+	"license":      "MIT",
+	"dependencies": {
+		"ts-loader":       "^5.2.1",
+		"webpack":         "^4.20.2",
+		"webpack-cli":     "^3.1.2",
+		"@types/inquirer": "0.0.43",
+		"@types/node":     "^10.11.3",
+		"@types/webpack":  "^4.4.13",
+		"chalk":           "^2.4.1",
+		"ts-node":         "^7.0.1",
+		"typescript":      "^3.1.1"
+	}
+}

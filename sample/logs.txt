@@ -1,0 +1,258 @@
+
+
+==== start ====
+
+["Preparing template, please wait..."]
+
+["Preparation done!"]
+
+["Performing variable and flag scans..."]
+
+
+==== end ====
+
+
+
+
+
+==== start ====
+
+["Preparing template, please wait..."]
+
+["Preparation done!"]
+
+["Performing variable and flag scans..."]
+
+
+==== end ====
+
+
+
+
+
+==== start ====
+
+["Preparing template, please wait..."]
+
+["Preparation done!"]
+
+["Performing variable and flag scans..."]
+
+
+==== end ====
+
+
+
+
+
+==== start ====
+
+["Preparing template, please wait..."]
+
+["Preparation done!"]
+
+["Performing variable and flag scans..."]
+
+["======================================\n  Number of occurrences of flag:\n======================================"]
+
+["packages.chai: 1"]
+
+["packages.mocha: 1"]
+
+["move.@kirinnee/core: 1"]
+
+["color.green: 2"]
+
+["color.black: 2"]
+
+["[Warning - this flag has no occurrence]: color.blue"]
+
+["fileOne: 4"]
+
+["fileTwo: 2"]
+
+["[Warning - this flag has no occurrence]: fileThree"]
+
+["======================================\n  Number of occurrences of variables:\n======================================"]
+
+["varOne: 1"]
+
+["varTwo: 1"]
+
+["objOne.varOne: 2"]
+
+["objOne.varTwo: 2"]
+
+["===========\n WARNING\n==========="]
+
+["[Warning] The following flags do not exist in the template"]
+
+["\tcolor.blue"]
+
+["\tfileThree"]
+
+["Ignoring warning..."]
+
+["Parsing templates..."]
+
+["Completed parsing templates!"]
+
+["WARNING: LIST OF POSSIBLE UNUSED VARIABLES"]
+
+["\tif~lol~:project\\flag~fileOne~file1.txt"]
+
+["Generating template..."]
+
+["======================================\n  Number of occurrences of flag:\n======================================"]
+
+["packages.chai: 1"]
+
+["packages.mocha: 1"]
+
+["move.@kirinnee/core: 1"]
+
+["color.green: 2"]
+
+["color.black: 2"]
+
+["[Warning - this flag has no occurrence]: color.blue"]
+
+["fileOne: 4"]
+
+["fileTwo: 2"]
+
+["[Warning - this flag has no occurrence]: fileThree"]
+
+["======================================\n  Number of occurrences of variables:\n======================================"]
+
+["varOne: 1"]
+
+["varTwo: 1"]
+
+["objOne.varOne: 2"]
+
+["objOne.varTwo: 2"]
+
+["===========\n WARNING\n==========="]
+
+["[Warning] The following flags do not exist in the template"]
+
+["\tcolor.blue"]
+
+["\tfileThree"]
+
+["Ignoring warning..."]
+
+["Parsing templates..."]
+
+["Completed parsing templates!"]
+
+["WARNING: LIST OF POSSIBLE UNUSED VARIABLES"]
+
+["\tif~lol~:project\\flag~fileOne~file1.txt"]
+
+["Generating template..."]
+
+["======================================\n  Number of occurrences of flag:\n======================================"]
+
+["packages.chai: 1"]
+
+["packages.mocha: 1"]
+
+["move.@kirinnee/core: 1"]
+
+["color.green: 2"]
+
+["color.black: 2"]
+
+["[Warning - this flag has no occurrence]: color.blue"]
+
+["fileOne: 4"]
+
+["fileTwo: 2"]
+
+["[Warning - this flag has no occurrence]: fileThree"]
+
+["======================================\n  Number of occurrences of variables:\n======================================"]
+
+["varOne: 1"]
+
+["varTwo: 1"]
+
+["objOne.varOne: 2"]
+
+["objOne.varTwo: 2"]
+
+["===========\n WARNING\n==========="]
+
+["[Warning] The following flags do not exist in the template"]
+
+["\tcolor.blue"]
+
+["\tfileThree"]
+
+["Ignoring warning..."]
+
+["Parsing templates..."]
+
+["Completed parsing templates!"]
+
+["WARNING: LIST OF POSSIBLE UNUSED VARIABLES"]
+
+["\tif~lol~:project\\flag~fileOne~file1.txt"]
+
+["Generating template..."]
+
+["======================================\n  Number of occurrences of flag:\n======================================"]
+
+["packages.chai: 1"]
+
+["packages.mocha: 1"]
+
+["move.@kirinnee/core: 1"]
+
+["color.green: 2"]
+
+["color.black: 2"]
+
+["[Warning - this flag has no occurrence]: color.blue"]
+
+["fileOne: 4"]
+
+["fileTwo: 2"]
+
+["[Warning - this flag has no occurrence]: fileThree"]
+
+["======================================\n  Number of occurrences of variables:\n======================================"]
+
+["varOne: 1"]
+
+["varTwo: 1"]
+
+["objOne.varOne: 2"]
+
+["objOne.varTwo: 2"]
+
+["===========\n WARNING\n==========="]
+
+["[Warning] The following flags do not exist in the template"]
+
+["\tcolor.blue"]
+
+["\tfileThree"]
+
+["Ignoring warning..."]
+
+["Parsing templates..."]
+
+["Completed parsing templates!"]
+
+["WARNING: LIST OF POSSIBLE UNUSED VARIABLES"]
+
+["\tif~lol~:project\\flag~fileOne~file1.txt"]
+
+["Generating template..."]
+
+
+==== end ====
+

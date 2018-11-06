@@ -1,0 +1,26 @@
+{
+	"name":         "var~package-name~",
+	"version":      "0.0.1",
+	"description":  "var~cyan.docs.description~",
+	"scripts":      {
+		"build": "webpack",
+		"dev":   "develop"
+	},
+	"repository":   {
+		"type": "gitflag~cyan.docs.git~",
+		"url":  "var~git~flag~cyan.docs.git~"
+	},
+	"author":       "var~cyan.docs.author~",
+	"license":      "var~cyan.docs.license~flag~cyan.docs.license~",
+	"dependencies": {
+		"ts-loader":       "^5.2.1",
+		"webpack":         "^4.20.2",
+		"webpack-cli":     "^3.1.2",
+		"@types/inquirer": "0.0.43",
+		"@types/node":     "^10.11.3",
+		"@types/webpack":  "^4.4.13",
+		"chalk":           "^2.4.1",
+		"ts-node":         "^7.0.1",
+		"typescript":      "^3.1.1"
+	}
+}
