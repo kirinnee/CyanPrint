@@ -1,0 +1,2 @@
+flag~color.green~green
+flag~color.black~black

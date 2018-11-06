@@ -1,0 +1,11 @@
+{
+	"name": "cyanprint",
+	"version": "0.6.0",
+	"description": "Scaffolding CLI to generate templates or skeletons",
+	"main": "dist/cyan.js",
+	"dependencies": {
+		"@kirinnee/core": "^0.6.4",
+		"chai": "^4.2.0",
+		"mocha": "^5.2.0"
+	}
+}
