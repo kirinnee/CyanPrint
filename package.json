@@ -10,7 +10,7 @@
   },
   "types": "./types/cyan.d.ts",
   "bin": {
-    "cyan.js": "dist/cyan.js"
+	  "cyan": "dist/cyan.js"
   },
   "repository": {
     "type": "git",

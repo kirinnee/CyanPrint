@@ -32,7 +32,7 @@ async function Execute(command, args, watch) {
             await run(mocha);
             break;
         case "publish":
-            await run(`npm run build`);
+            await run(`npm run deploy`);
             await run(`git add .`); 
             await run(`git commit -m "Preparing for next ${args[0]} version`); 
             await run(`npm version ${args[0]}`);
