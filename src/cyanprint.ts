@@ -22,7 +22,7 @@ core.ExtendPrimitives();
 let u: Utility = new Utility(core);
 
 program
-	.version('0.11.9');
+	.version('0.12.0');
 
 // error on unknown commands
 program
