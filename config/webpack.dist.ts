@@ -25,6 +25,7 @@ function GenerateConfig(entry: Entry, filename: string, mode: "development"|"pro
 	    resolve: {
 		    extensions: ['.ts', '.tsx', '.js']
 	    },
+	    plugins: [new webpack.BannerPlugin({banner: "#!/usr/bin/env node", raw: true})],
         mode: mode,
         devtool: "source-map", 
         module: {rules: rules},
