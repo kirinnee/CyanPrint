@@ -16,7 +16,7 @@ class Execute implements IExecute {
 	private readonly folderName: string;
 	
 	constructor(core: Core, folderName: string, root: string, abs: string, autoInquirer: IAutoInquire, autoMapper: IAutoMapper) {
-		if (!core.IsExtended) throw new Error("Core is not extended!");
+		core.AssertExtend();
 		this.core = core;
 		this.currentPath = path.dirname(abs);
 		this.auto = autoInquirer;

@@ -18,7 +18,7 @@ class PermuteManager implements IPermuteManager {
 	private currentQueue: number[] = [];
 	
 	constructor(core: Core) {
-		if (!core.IsExtended) throw new Error("Core needs to be extended");
+		core.AssertExtend();
 	}
 	
 	Completed(): boolean {

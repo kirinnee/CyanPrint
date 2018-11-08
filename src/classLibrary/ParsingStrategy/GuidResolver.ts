@@ -7,7 +7,7 @@ class GuidResolver implements ParsingStrategy {
 	private static guids: string[] = [];
 	
 	constructor(core: Core) {
-		if (!core.IsExtended) throw new Error("Core needs to be extended");
+		core.AssertExtend();
 	}
 	
 	get MapType(): MapType {

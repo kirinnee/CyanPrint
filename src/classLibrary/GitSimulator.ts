@@ -9,7 +9,7 @@ import rimraf = require("rimraf");
 class GitSimulator {
 	
 	constructor(core: Core) {
-		if (!core.IsExtended) throw new Error("Core needs to be extended");
+		core.AssertExtend();
 	}
 	
 	async SimulateGit(root: string, file: string): Promise<string> {

@@ -28,7 +28,7 @@ class SimpleFileFactory implements IFileFactory {
 	readonly ToRoot: string;
 	
 	constructor(core: Core, FromRoot: string, ToRoot: string) {
-		if (!core.IsExtended) throw new Error("Core needs to be extended");
+		core.AssertExtend();
 		this.FromRoot = FromRoot;
 		this.ToRoot = ToRoot;
 	}

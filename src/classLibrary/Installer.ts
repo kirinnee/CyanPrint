@@ -19,7 +19,7 @@ export class Installer {
 	private readonly writer: FileWriter;
 	
 	constructor(core: Core, fileFactory: IFileFactory, util: Utility, writer: FileWriter) {
-		if (!core.IsExtended) throw new Error("Core needs to be extended!");
+		core.AssertExtend();
 		this.fileFactory = fileFactory;
 		this.core = core;
 		this.util = util;

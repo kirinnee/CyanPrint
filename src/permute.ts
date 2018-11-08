@@ -26,13 +26,6 @@ async function Concurrent<R>(array: any[], a: ((e) => Promise<R>)): Promise<R[]>
 		}
 	);
 	return Promise.all(prom);
-	// let resp: R[] = [];
-	// for (let i = 0; i < array.length; i++) {
-	// 	const aElement = array[i];
-	// 	let ret: R = await a(aElement);
-	// 	resp.push(ret);
-	// }
-	// return resp;
 }
 
 
@@ -62,8 +55,8 @@ export async function Permute(u: Utility, git: boolean, copyNode: boolean, from:
 		let obj: Map<string, boolean[]>[] = cyanSafe
 			.Map(e => e.val.flags)
 			.Each(e => delete e["cyan.docs"])
-			.Map(e => u.FlattenFlagObject(e))
-			.Map((e: Map<string, boolean>) => e.MapValue(v => u.c.WrapArray(v)));
+			.Map(e => e.AsMap() as Map<string, boolean>)
+			.Map((e: Map<string, boolean>) => e.MapValue(v => u.c.WrapArray<boolean>(v) as boolean[]));
 		
 		u.SafeWriteFile(JSONLog, JSON.stringify(
 			obj.Reduce((a, b) => {

@@ -7,6 +7,7 @@ import {Core, Kore} from "@kirinnee/core";
 import {Try} from "./try";
 import {Permute} from "./permute";
 import {Create} from "./create";
+import {ObjectX, Objex} from "@kirinnee/objex";
 
 declare global {
 	interface String {
@@ -19,7 +20,13 @@ declare global {
 
 let core: Core = new Kore();
 core.ExtendPrimitives();
+
+let objex: Objex = new ObjectX(core);
+objex.ExtendPrimitives();
+
+
 let u: Utility = new Utility(core);
+
 
 program
 	.version('0.12.1');

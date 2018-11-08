@@ -102,7 +102,7 @@ available at [http://contributor-covenant.org/version/1/4][version]
 [version]: http://contributor-covenant.org/version/1/4/`;
 	
 	constructor(core: Core) {
-		if (!core.IsExtended) throw new Error("Core needs to be extended!");
+		core.AssertExtend();
 	}
 	
 	ResolveContributing(contributing: Contributing, to): FileSystemInstance {
