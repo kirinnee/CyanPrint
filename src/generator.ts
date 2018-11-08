@@ -88,6 +88,7 @@ export async function GenerateTemplate(util: Utility, templatePath: string, fold
 	
 	//remove package.lock
 	files = files.Where(f => f.sourceAbsolutePath.ReplaceAll("\\\\", "/").split("/").Last()! !== "package-lock.json");
+	files = files.Where(f => f.sourceAbsolutePath.ReplaceAll("\\\\", "/").split("/").Last()! !== "yarn.lock");
 	
 	
 	//Add in the cyan.docs flag
