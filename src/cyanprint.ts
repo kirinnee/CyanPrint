@@ -29,7 +29,7 @@ let u: Utility = new Utility(core);
 
 
 program
-	.version('0.12.1');
+	.version('0.12.2');
 
 // error on unknown commands
 program
