@@ -17,10 +17,9 @@ export class GlobFactory {
 	constructor(util: Utility, fileFactory: IFileFactory) {
 		let core = util.c;
 		if (!core.IsExtended) throw "Core needs to be extended";
-		this.c = core;
 		this.util = util;
+		this.c = this.util.c;
 		this.fileFactory = fileFactory;
-		console.log(this.util);
 	}
 	
 	GenerateFiles(root: string, pattern: string, ignore?: string | string[], target: string = './'): FileSystemInstance[] {
