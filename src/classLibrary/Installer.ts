@@ -41,8 +41,7 @@ export class Installer {
 	private async GitInstall(link: string, copyNode: boolean): Promise<string> {
 		let i = this;
 		let reply = await new Promise<string>(function (resolve) {
-			console.log('arguments: ', 'git', 'clone', link, i.fileFactory.ToRoot);
-			spawn("git", ["clone", link, i.fileFactory.ToRoot],
+			spawn("git", ["clone", `"${link}"`, `"${i.fileFactory.ToRoot}"`],
 				{
 					stdio: "inherit",
 					shell: true

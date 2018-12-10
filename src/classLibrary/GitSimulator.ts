@@ -17,7 +17,7 @@ class GitSimulator {
 		let tempPath = this.lookForEmptyFolder(root);
 		let oriPath = path.resolve(root, file);
 		try {
-			await this.Execute(`git clone ${oriPath} ${tempPath}`);
+			await this.Execute(`git clone "${oriPath}" "${tempPath}"`);
 		}
 		catch (e) {
 			console.log(chalk.redBright(e));
