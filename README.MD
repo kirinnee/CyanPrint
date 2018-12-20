@@ -870,7 +870,7 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.MD) for details on our code of conduc
 We use [SemVer](https://semver.org/) for versioning. For the versions available, see the tags on this repository.
 
 # Authors
-* bob
+* kirinnee 
 
 # License
 This project is licensed under the MIT - see the [LICENSE.md](LICENSE.MD) file for details
