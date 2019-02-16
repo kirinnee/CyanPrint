@@ -60,7 +60,6 @@ program
 			Install(link, group, copyNode, core, u)
 				.then(reply => console.log(reply))
 				.then(() => process.exit(0));
-			
 		} else {
 			console.log(chalk.redBright("Group ") + chalk.yellow(group) + chalk.redBright(" does not exist!"));
 			process.exit(0);

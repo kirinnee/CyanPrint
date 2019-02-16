@@ -2,6 +2,7 @@ import {Utility} from "../Utility";
 import {FileSystemInstance, IFile} from "../File";
 import {MapType, ParsingStrategy} from "./ParsingStrategy";
 import * as path from "path";
+import * as RJSON from "relaxed-json";
 
 class PackageResolver implements ParsingStrategy {
 	
@@ -22,7 +23,7 @@ class PackageResolver implements ParsingStrategy {
 					let file: IFile = f as IFile;
 					//console.log("is package?",this.IsPackageDotJson(file), file.sourceAbsolutePath);
 					if (this.IsPackageDotJson(file)) {
-						let jsonObject: object = JSON.parse(file.content);
+						let jsonObject: object = RJSON.parse(file.content);
 						map.Each((k: string) => {
 							if (jsonObject["devDependencies"] != null) {
 								if (jsonObject["devDependencies"][k] != null) {
@@ -54,7 +55,7 @@ class PackageResolver implements ParsingStrategy {
 		if (f["content"] != null) {
 			let file: IFile = f as IFile;
 			if (this.IsPackageDotJson(file)) {
-				let jsonObject: object = JSON.parse(file.content);
+				let jsonObject: object = RJSON.parse(file.content);
 				
 				map.Each((k: string, v: boolean) => {
 					if (jsonObject["devDependencies"] != null) {

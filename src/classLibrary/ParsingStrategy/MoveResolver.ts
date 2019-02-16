@@ -2,6 +2,7 @@ import {MapType, ParsingStrategy} from "./ParsingStrategy";
 import {FileSystemInstance, IFile} from "../File";
 import {Utility} from "../Utility";
 import * as path from "path";
+import * as RJSON from "relaxed-json";
 
 class MoveResolver implements ParsingStrategy {
 	MapType: MapType = MapType.FLAG;
@@ -21,7 +22,7 @@ class MoveResolver implements ParsingStrategy {
 				if (f["content"] != null) {
 					let file: IFile = f as IFile;
 					if (this.IsPackageDotJson(file)) {
-						let jsonObject: object = JSON.parse(file.content);
+						let jsonObject: object = RJSON.parse(file.content);
 						map.Each((k: string) => {
 							if (jsonObject["devDependencies"] != null) {
 								if (jsonObject["devDependencies"][k] != null) {
@@ -66,21 +67,21 @@ class MoveResolver implements ParsingStrategy {
 		let file: IFile = f as IFile;
 		if (!this.IsPackageDotJson(file)) return file;
 		
-		let jsonObject: object = JSON.parse(file.content);
+		let jsonObject: object = RJSON.parse(file.content);
 		
 		map.Where((k: string, v: boolean) => v)
-			.Keys()
-			.Each((k: string) => {
-				if (jsonObject["devDependencies"] != null && jsonObject["devDependencies"][k] != null) {
-					if (jsonObject["dependencies"] == null) jsonObject["dependencies"] = {};
-					jsonObject["dependencies"][k] = jsonObject["devDependencies"][k];
-					delete jsonObject["devDependencies"][k];
-				} else if (jsonObject["dependencies"] != null && jsonObject["dependencies"][k] != null) {
-					if (jsonObject["devDependencies"] == null) jsonObject["devDependencies"] = {};
-					jsonObject["devDependencies"][k] = jsonObject["dependencies"][k];
-					delete jsonObject["dependencies"][k];
-				}
-			});
+		   .Keys()
+		   .Each((k: string) => {
+			   if (jsonObject["devDependencies"] != null && jsonObject["devDependencies"][k] != null) {
+				   if (jsonObject["dependencies"] == null) jsonObject["dependencies"] = {};
+				   jsonObject["dependencies"][k] = jsonObject["devDependencies"][k];
+				   delete jsonObject["devDependencies"][k];
+			   } else if (jsonObject["dependencies"] != null && jsonObject["dependencies"][k] != null) {
+				   if (jsonObject["devDependencies"] == null) jsonObject["devDependencies"] = {};
+				   jsonObject["devDependencies"][k] = jsonObject["dependencies"][k];
+				   delete jsonObject["dependencies"][k];
+			   }
+		   });
 		file.content = JSON.stringify(jsonObject, null, 2);
 		return file;
 	}

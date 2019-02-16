@@ -93,6 +93,26 @@ export class Installer {
 		await this.writer.AWriteFile(fileSystemInstance);
 		
 		return chalk.greenBright("Installation Completed");
-		
+		/*
+		 
+		 I’m writing to express my wholehearted support for Ernest’s application to your university. I am the director of DAB Technology Pte Ltd,
+		 a Singapore Enterprise that boast to be the sole distributor of vacuum products in Asia Pacific.
+		 
+		 Ernest was hired through the recommendation of my son as a Software Engineer. At first, I had doubts to hand the upgrade of a digital
+		 platform to a student who has no entered university – it was an upgrade from a website made by a professional software firm. However,
+		 I was pleasantly surprised by the result. Just within a couple of weeks, Ernest led his team and rolled out two new product sites and
+		 eCommerce functionality, just in time for an upcoming exhibition.
+		 
+		 Ernest's most impressive trait is perhaps his professionalism. Shortly after the exhibition, Ernest proposed to change our technology
+		 infrastructure. Immediately I inquired for the benefit of such an action, expecting answers such as security or performance benefits.
+		 Instead, Ernest explained about that the current infrastructure and design is fragile and rigid. To facilitate maintenance, future
+		 changes and faster test cycles, Ernest said it is a programmer's responsibility to not only make sure every line of code works, but
+		 it must also be provable and easily understood by others.
+		 
+		 Instead of taking advantage of his technical literacy, Ernest showed high level of professionalism by striving to achieve a stable and
+		 
+		 
+		 
+		 */
 	}
 }
