@@ -64,7 +64,7 @@ class InquirerSpy implements IAutoInquire {
 			gitURL: "https://github.com/kirinnee",
 			licenseType: "MIT",
 			years: "2018",
-			projectName: "CyanPrint Permuate Test",
+			projectName: "CyanPrintPermuateTest",
 			description: "Permutation Test"
 		};
 		
