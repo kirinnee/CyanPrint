@@ -40,6 +40,9 @@ class CyanParser {
 				def.comments = [cyan.comments]
 			}
 		}
+		if (cyan.guid != null) {
+			def.guid = cyan.guid;
+		}
 		return def;
 	}
 	
