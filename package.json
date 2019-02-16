@@ -1,6 +1,6 @@
 {
   "name": "cyanprint",
-  "version": "0.12.7",
+  "version": "0.12.8",
   "description": "CyanPrint is a scaffolding CLI for people to create templates or blueprints to scaffold commonly used ",
   "main": "dist/cyan.js",
   "license": "MIT",
