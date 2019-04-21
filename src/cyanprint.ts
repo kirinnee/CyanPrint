@@ -2,7 +2,7 @@ import program from 'commander';
 import {Utility} from "./classLibrary/Utility";
 import {Install} from "./install";
 import chalk from 'chalk';
-import {CreateGroup, DeleteGroup, ExistGroup, ListGroup} from "./group";
+import {CreateGroup, DeleteGroup, ExistGroup, ListGroup, ListTemplates} from "./group";
 import {Core, Kore} from "@kirinnee/core";
 import {Try} from "./try";
 import {Permute} from "./permute";
@@ -43,7 +43,7 @@ program
 	.alias("c")
 	.description("create a project from installed templates")
 	.action(async function (folderName: string) {
-		let reply: string = await Create(u, folderName);
+		let reply: string = await Create(objex, u, folderName);
 		console.log(reply);
 		process.exit(0);
 	});
@@ -54,7 +54,7 @@ program
 	.description("install templates from git or from local machine")
 	.option("-N --copy-node", "Copies node_module to target area")
 	.action(function (link, dir, cmd) {
-		let group: string = dir || "Main";
+		let group: string = dir || "main";
 		let copyNode: boolean = cmd["copyNode"] != null;
 		if (ExistGroup(group)) {
 			Install(link, group, copyNode, core, u)
@@ -67,26 +67,30 @@ program
 	});
 
 program
-	.command("group <action> [dirName]")
-	.description("Group functions, create - delete - list")
-	.action(function (action: string, name: string) {
+	.command("group <action> [key] [name] [email]")
+	.description("Group functions - [create, deleted, list, peek]")
+	.action(function (action: string, key: string, name: string, email: string) {
 		switch (action.toLowerCase()) {
 			case "create":
-				if (name != null) {
-					console.log(CreateGroup(name));
+				if (name != null && key != null && email != null) {
+					console.log(CreateGroup(key, name, email));
 				} else {
-					console.log(chalk.yellowBright("Usage:") + " group create <group name>");
+					console.log(chalk.yellowBright("Usage:") + " group create <group-key> <group-name> <author-email>");
 				}
 				break;
 			case "delete":
-				if (name != null) {
-					console.log(DeleteGroup(name));
+				if (key != null) {
+					console.log(DeleteGroup(key));
 				} else {
-					console.log(chalk.yellowBright("Usage:") + " group delete <group name>");
+					console.log(chalk.yellowBright("Usage:") + " group delete <group-key>");
 				}
 				break;
 			case "list":
-				console.log(ListGroup());
+				if (key == null) {
+					console.log(ListGroup());
+				} else {
+					console.log(ListTemplates(key));
+				}
 				break;
 			default:
 				console.log(chalk.redBright("Unknown group sub-command: available commands: \n\tcreate - creates a new group\n\tdelete - deletes a group\n\tlist - show the list of groups"));

@@ -7,14 +7,14 @@ import {Utility} from "./classLibrary/Utility";
 import {CyanSafe, IAutoInquire, IAutoMapper} from "./classLibrary/TargetUtil/CyanResponse";
 import {AutoMapper} from "./classLibrary/TargetUtil/AutoMapper";
 import {GenerateTemplate, Interrogate} from "./generator";
+import {Objex} from "@kirinnee/objex";
 
-export async function Create(utility: Utility, folderName: string): Promise<string> {
+export async function Create(objex: Objex, utility: Utility, folderName: string): Promise<string> {
 	
 	let root = path.resolve(__dirname, '../templates');
-	let group: Group = new Group(utility.c, root);
+	let group: Group = new Group(utility.c, objex, root, utility);
 	
-	let map: Map<string, string> = group.ListAsArray()
-		.AsValue((k: string) => k.ReplaceAll('-', ' ').ReplaceAll('_', ' '));
+	let map: Map<string, string> = new Map(group.ListAsArray());
 	
 	let answers: any = await inquirer.prompt([
 		{
@@ -36,10 +36,10 @@ async function CreateTemplates(utility: Utility, group: string, folderName: stri
 	
 	//Map each template to a non - or non _ version to prompt question, asking which template to use
 	let templates: Map<string, string> = glob.sync(path.resolve(root, "*/cyan.config.js"))
-		.Map(p => path.dirname(p as string).split("/").pop()!)
-		.AsValue((k: string) =>
-			k.ReplaceAll('-', ' ').ReplaceAll('_', ' ')
-		);
+	                                         .Map(p => path.dirname(p as string).split("/").pop()!)
+	                                         .AsValue((k: string) =>
+		                                         k.ReplaceAll('-', ' ').ReplaceAll('_', ' ')
+	                                         );
 	//Put up a list to see which question to return
 	let answers: any = await inquirer.prompt([
 		{

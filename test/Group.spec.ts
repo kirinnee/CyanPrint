@@ -1,24 +1,31 @@
 import {Group} from "../src/classLibrary/Group";
 import * as path from 'path';
-import chalk from 'chalk';
 import {should} from 'chai';
 import {Core, Kore} from "@kirinnee/core";
+import {ObjectX, Objex} from "@kirinnee/objex";
+import {Utility} from "../src/classLibrary/Utility";
 
 should();
 let core: Core = new Kore();
 core.ExtendPrimitives();
 
+const objex: Objex = new ObjectX(core);
+objex.ExtendPrimitives();
+
+const util: Utility = new Utility(core);
+
 let root: string = path.resolve(__dirname, './target/Groups');
-let group: Group = new Group(core, root);
+let group: Group = new Group(core, objex, root, util);
 
 describe("Group", () => {
-	describe("List", () => {
+	describe("ListAsArray", () => {
 		it("should list out all the possible groups", () => {
-			let expected =
-				`${chalk.blueBright("a")}
-${chalk.blueBright("b")}
-${chalk.blueBright("c")}`;
-			group.List().should.deep.equal(expected);
+			let expected = [
+				["Frontend Templates", "frontend"],
+				["C# .NET Core", "csharp"],
+				["Ruby Gems", "gem"]
+			];
+			group.ListAsArray().should.deep.equal(expected);
 		});
 	});
 	describe("Exist", () => {
@@ -28,10 +35,37 @@ ${chalk.blueBright("c")}`;
 		});
 		
 		it("should return true for Groups that exist", () => {
-			group.Exist("a").should.be.true;
-			group.Exist("b").should.be.true;
+			group.Exist("gem").should.be.true;
+			group.Exist("csharp").should.be.true;
 		});
-	})
+	});
+	
+	describe("Obtain group data", () => {
+		it("should read cyan.group.json and return as GroupData object", () => {
+			const expected = {
+				name: "C# .NET Core",
+				key: "chsarp",
+				email: "kirinnee97@gmail.com",
+				templates: {
+					nuget_lib: "NuGet Library",
+					nuget_cli: "NuGet Command Line"
+				}
+			};
+			group.ObtainGroupData("csharp").should.deep.equal(expected);
+		});
+	});
+	
+	describe("ListTemplate", () => {
+		it("should list all templates", () => {
+			const expected: [string, string][] = [
+				["vue", "Vue Template"],
+				["react", "React Template"]
+			];
+			group.ListTemplate("frontend").should.deep.equal(expected);
+		});
+	});
+	
+	
 });
 
 

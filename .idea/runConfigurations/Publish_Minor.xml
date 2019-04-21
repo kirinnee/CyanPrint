@@ -1,11 +1,11 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Publish Minor" type="js.build_tools.npm" factoryName="npm">
+  <configuration default="false" name="Publish Minor" type="js.build_tools.npm">
     <package-json value="$PROJECT_DIR$/package.json" />
     <command value="run" />
     <scripts>
       <script value="minor" />
     </scripts>
-    <node-interpreter value="project" />
+    <node-interpreter value="node" />
     <envs />
     <method v="2" />
   </configuration>

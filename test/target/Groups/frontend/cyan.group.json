@@ -1,0 +1,9 @@
+{
+	"name":      "Frontend Templates",
+	"key":       "frontend",
+	"email":     "kirinnee97@gmail.com",
+	"templates": {
+		"vue":   "Vue Template",
+		"react": "React Template"
+	}
+}

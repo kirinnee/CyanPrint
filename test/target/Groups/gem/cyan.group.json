@@ -1,0 +1,8 @@
+{
+	"name":      "Ruby Gems",
+	"key":       "gem",
+	"email":     "kirinnee97@gmail.com",
+	"templates": {
+		"gem": "Gem"
+	}
+}

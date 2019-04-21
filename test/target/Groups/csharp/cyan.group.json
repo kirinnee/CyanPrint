@@ -1,0 +1,9 @@
+{
+	"name":      "C# .NET Core",
+	"key":       "chsarp",
+	"email":     "kirinnee97@gmail.com",
+	"templates": {
+		"nuget_lib": "NuGet Library",
+		"nuget_cli": "NuGet Command Line"
+	}
+}
