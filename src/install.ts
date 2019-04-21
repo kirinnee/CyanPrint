@@ -9,6 +9,7 @@ import {Dependency} from "./Depedency";
 import {Template} from "./classLibrary/Template";
 import {Group} from "./classLibrary/Group";
 import {TemplateResponse} from "./classLibrary/TemplateData";
+import fetch, {Response} from "node-fetch";
 
 
 export async function Install(key: string, group: string, copyNode: boolean, dep: Dependency): Promise<string> {
@@ -24,6 +25,11 @@ export async function Install(key: string, group: string, copyNode: boolean, dep
 	
 	// Create a reflection of file system for template using Template object.
 	const r: TemplateResponse = await dep.api.GetTemplateData(key);
+	
+	// Ping endpoint to check if repository exist
+	const resp: Response = await fetch(r.repository, {method: "HEAD"});
+	if (resp.status !== 200) return chalk.red("Repository does not exist! Please contact the owner of the template");
+	
 	const template: Template = new Template(group, r.unique_key, r.display_name, r.repository, g);
 	
 	let fileFactory: IFileFactory = new RootFileFactory(dep.core, __dirname, fromPath, template.Template);

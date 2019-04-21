@@ -4,6 +4,8 @@ import {Core, Kore} from "@kirinnee/core";
 import {ObjectX, Objex} from "@kirinnee/objex";
 import {Utility} from "./classLibrary/Utility";
 import chalk from "chalk";
+import {AutoMapper} from "./classLibrary/TargetUtil/AutoMapper";
+import {AutoInquire} from "./classLibrary/TargetUtil/AutoInquire";
 
 const core: Core = new Kore();
 core.ExtendPrimitives();
@@ -23,7 +25,14 @@ function CreateGroup(key: string, name: string, email: string): string {
 	return chalk.redBright("The Group " + chalk.yellowBright(key) + ` (${name}) already exist!`);
 }
 
-function DeleteGroup(key: string): string {
+async function DeleteGroup(key: string): Promise<string> {
+	const autoMapper = new AutoMapper(util);
+	const autoInquirer = new AutoInquire(util, autoMapper);
+	const confirm =
+		await autoInquirer.InquirePredicate(
+			`Are you sure you want to delete Group ${key} and all templates and content with the group? This cannot be undone`
+		);
+	if (!confirm) return "User cancelled";
 	const success = group.Delete(key);
 	if (success)
 		return chalk.greenBright("The Group " + chalk.yellowBright(key) + " has been deleted!");

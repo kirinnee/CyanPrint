@@ -14,6 +14,7 @@ import {IAutoInquire, IAutoMapper} from "./classLibrary/TargetUtil/CyanResponse"
 import {AutoInquire} from "./classLibrary/TargetUtil/AutoInquire";
 import {AutoMapper} from "./classLibrary/TargetUtil/AutoMapper";
 import {RemoveTemplate} from "./remove";
+import {UpdateTemplate} from "./upgrade";
 
 declare global {
 	interface String {
@@ -83,9 +84,10 @@ program
 
 program
 	.command("group <action> [key] [name] [email]")
-	.description("Group functions - [create, deleted, list, peek]")
-	.action(function (action: string, key: string, name: string, email: string) {
+	.description("Group functions - [create (c), deleted (r), list (l), install (i)]")
+	.action(async function (action: string, key: string, name: string, email: string) {
 		switch (action.toLowerCase()) {
+			case "c":
 			case "create":
 				if (name != null && key != null && email != null) {
 					console.log(CreateGroup(key, name, email));
@@ -93,19 +95,26 @@ program
 					console.log(chalk.yellowBright("Usage:") + " group create <group-key> <group-name> <author-email>");
 				}
 				break;
+			case "r":
 			case "delete":
 				if (key != null) {
-					console.log(DeleteGroup(key));
+					const r = await DeleteGroup(key);
+					console.log(r);
 				} else {
 					console.log(chalk.yellowBright("Usage:") + " group delete <group-key>");
 				}
 				break;
+			case "l":
 			case "list":
 				if (key == null) {
 					console.log(ListGroup());
 				} else {
 					console.log(ListTemplates(key));
 				}
+				break;
+			case "install":
+			case "i":
+				
 				break;
 			default:
 				console.log(chalk.redBright("Unknown group sub-command: available commands: \n\tcreate - creates a new group\n\tdelete - deletes a group\n\tlist - show the list of groups"));
@@ -142,15 +151,24 @@ program
 	});
 
 program
-	.command("remove <key> <group>")
+	.command("remove <group> <key>")
 	.description("Deletes or removes the template from the group")
 	.alias("r")
-	.action(async function (key: string, group: string) {
+	.action(async function (group: string, key: string) {
 		const reply = await RemoveTemplate(dep, key, group);
 		console.log(reply);
 		process.exit(0);
 	});
 
+program
+	.command("update <group> <key>")
+	.description("updates a template of a group")
+	.alias("u")
+	.action(async function (group: string, key: string) {
+		const reply = await UpdateTemplate(dep, key, group);
+		console.log(reply);
+		process.exit(0);
+	});
 
 program.parse(process.argv);
 

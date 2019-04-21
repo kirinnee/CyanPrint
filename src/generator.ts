@@ -87,8 +87,8 @@ export async function GenerateTemplate(dep: Dependency, templatePath: string, fo
 	if (!copyNode) files = files.Where((f: FileSystemInstance) => !f.sourceAbsolutePath.includes("node_modules"));
 	
 	//remove package.lock
-	files = files.Where(f => f.sourceAbsolutePath.ReplaceAll("\\\\", "/").split("/").Last()! !== "package-lock.json");
-	files = files.Where(f => f.sourceAbsolutePath.ReplaceAll("\\\\", "/").split("/").Last()! !== "yarn.lock");
+	files = files.Where(f => f.sourceAbsolutePath.ReplaceAll("\\\\", "/").split("/").Last()! !== "package-lock.json")
+	             .Where(f => f.sourceAbsolutePath.ReplaceAll("\\\\", "/").split("/").Last()! !== "yarn.lock");
 	
 	
 	//Add in the cyan.docs flag
