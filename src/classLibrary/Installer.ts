@@ -46,7 +46,7 @@ export class Installer {
 					stdio: "inherit",
 					shell: true
 				}).on("exit", () => {
-				resolve(chalk.greenBright("Installation Completed"));
+				resolve("Installation Completed");
 			});
 		});
 		if (!copyNode) {
@@ -92,6 +92,6 @@ export class Installer {
 		fileSystemInstance = await glob.ReadFiles(fileSystemInstance);
 		await this.writer.AWriteFile(fileSystemInstance);
 		
-		return chalk.greenBright("Installation Completed");
+		return "Installation Completed";
 	}
 }

@@ -18,8 +18,9 @@ let group: Group = new Group(core, objex, root, util);
 
 function CreateGroup(key: string, name: string, email: string): string {
 	const success = group.Create(key, name, email);
-	if (success) return chalk.redBright("The Group " + chalk.yellowBright(key) + ` (${name}) already exist!`);
-	return chalk.greenBright("The Group " + chalk.yellowBright(key) + ` (${name}) has been created!`);
+	if (success)
+		return chalk.greenBright("The Group " + chalk.yellowBright(key) + ` (${name}) has been created!`);
+	return chalk.redBright("The Group " + chalk.yellowBright(key) + ` (${name}) already exist!`);
 }
 
 function DeleteGroup(key: string): string {

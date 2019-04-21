@@ -6,8 +6,8 @@
     "build": "webpack"
   },
   "repository": {
-    "type": "git",
-    "url": "https://github.com/kirinnee/cyan.CyanPrint.git"
+	  "type": "git",
+	  "url":  "https://gitlab.com/cyanprint/cyanprint-template.git"
   },
   "author": "kirinnee",
   "license": "MIT",

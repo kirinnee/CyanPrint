@@ -1,0 +1,7 @@
+{
+	"name":   "CyanPrint Meta Template",
+	"key":    "cyanprint",
+	"repo":   "https://gitlab.com/cyanprint/cyanprint-template.git",
+	"email":  "kirinnee97@gmail.com",
+	"readme": "README.MD"
+}

@@ -85,16 +85,33 @@ export class Group {
 		return map.Where(k => this.Exist(k)).Map((k, v) => [v, k] as [string, string]);
 	}
 	
-	
-	ListTemplate(key: string): [string, string][] {
-		return this.ObtainGroupData(key).templates.AsMap<string>().Map((k, v) => [k, v] as [string, string]);
-	}
-	
 	ObtainGroupData(key: string): GroupData {
 		const full = path.resolve(this.templateRoot, key, "cyan.group.json");
 		const data = fs.readFileSync(full, 'utf8');
 		return JSON.parse(data) as GroupData;
 	}
+	
+	ListTemplate(key: string): [string, string][] {
+		return this.ObtainGroupData(key).templates.AsMap<string>().Map((k, v) => [k, v] as [string, string]);
+	}
+	
+	AddTemplate(key: string, templateKey: string, templateName: string): void {
+		const full = path.resolve(this.templateRoot, key, "cyan.group.json");
+		const data: GroupData = JSON.parse(fs.readFileSync(full, 'utf8'));
+		data.templates[templateKey] = templateName;
+		const newData: string = JSON.stringify(data);
+		this.util.SafeWriteFile(full, newData);
+	}
+	
+	RemoveTemplate(key: string, templateKey: string) {
+		const full = path.resolve(this.templateRoot, key, "cyan.group.json");
+		const data: GroupData = JSON.parse(fs.readFileSync(full, 'utf8'));
+		(data.templates[templateKey] as any) = null;
+		delete data.templates[templateKey];
+		const newData: string = JSON.stringify(data);
+		this.util.SafeWriteFile(full, newData);
+	}
+	
 	
 }
 

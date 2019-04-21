@@ -8,6 +8,11 @@ import {Try} from "./try";
 import {Permute} from "./permute";
 import {Create} from "./create";
 import {ObjectX, Objex} from "@kirinnee/objex";
+import {Dependency} from "./Depedency";
+import {ApiSdk} from "./classLibrary/sdk/ApiSdk";
+import {IAutoInquire, IAutoMapper} from "./classLibrary/TargetUtil/CyanResponse";
+import {AutoInquire} from "./classLibrary/TargetUtil/AutoInquire";
+import {AutoMapper} from "./classLibrary/TargetUtil/AutoMapper";
 
 declare global {
 	interface String {
@@ -17,16 +22,25 @@ declare global {
 	}
 }
 
-
-let core: Core = new Kore();
+const core: Core = new Kore();
 core.ExtendPrimitives();
 
-let objex: Objex = new ObjectX(core);
+const objex: Objex = new ObjectX(core);
 objex.ExtendPrimitives();
 
+const u: Utility = new Utility(core);
+const api: ApiSdk = new ApiSdk("http://localhost:3001");
+const autoMapper: IAutoMapper = new AutoMapper(u);
+const autoInquirer: IAutoInquire = new AutoInquire(u, autoMapper);
 
-let u: Utility = new Utility(core);
-
+const dep: Dependency = {
+	core,
+	objex,
+	util: u,
+	api,
+	autoInquirer,
+	autoMapper,
+};
 
 program
 	.version('0.12.9');
@@ -57,7 +71,7 @@ program
 		let group: string = dir || "main";
 		let copyNode: boolean = cmd["copyNode"] != null;
 		if (ExistGroup(group)) {
-			Install(link, group, copyNode, core, u)
+			Install(link, group, copyNode, dep)
 				.then(reply => console.log(reply))
 				.then(() => process.exit(0));
 		} else {

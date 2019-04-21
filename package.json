@@ -29,16 +29,18 @@
     "start": "node dist/cyan"
   },
   "dependencies": {
-    "@kirinnee/core": "^0.7.0",
-    "@kirinnee/objex": "^0.0.3",
-    "chalk": "^2.4.1",
-    "cli-progress": "^2.1.0",
-    "commander": "^2.19.0",
-    "glob": "^7.1.3",
-    "graceful-fs": "^4.1.11",
-    "inquirer": "^6.2.0",
-    "relaxed-json": "^1.0.1",
-    "rimraf": "^2.6.2"
+	  "@kirinnee/core":    "^0.7.0",
+	  "@kirinnee/objex":   "^0.0.3",
+	  "@types/node-fetch": "^2.3.2",
+	  "chalk":             "^2.4.1",
+	  "cli-progress":      "^2.1.0",
+	  "commander":         "^2.19.0",
+	  "glob":              "^7.1.3",
+	  "graceful-fs":       "^4.1.11",
+	  "inquirer":          "^6.2.0",
+	  "node-fetch":        "^2.3.0",
+	  "relaxed-json":      "^1.0.1",
+	  "rimraf":            "^2.6.2"
   },
   "devDependencies": {
     "@types/chai": "^4.1.6",
