@@ -13,6 +13,7 @@ import {ApiSdk} from "./classLibrary/sdk/ApiSdk";
 import {IAutoInquire, IAutoMapper} from "./classLibrary/TargetUtil/CyanResponse";
 import {AutoInquire} from "./classLibrary/TargetUtil/AutoInquire";
 import {AutoMapper} from "./classLibrary/TargetUtil/AutoMapper";
+import {RemoveTemplate} from "./remove";
 
 declare global {
 	interface String {
@@ -136,6 +137,16 @@ program
 		let git: boolean = cmd["git"] != null;
 		
 		let reply = await Try(dep, from, to, git, copyNode);
+		console.log(reply);
+		process.exit(0);
+	});
+
+program
+	.command("remove <key> <group>")
+	.description("Deletes or removes the template from the group")
+	.alias("r")
+	.action(async function (key: string, group: string) {
+		const reply = await RemoveTemplate(dep, key, group);
 		console.log(reply);
 		process.exit(0);
 	});
