@@ -1,11 +1,8 @@
 import {GitSimulator} from "./classLibrary/GitSimulator";
 import chalk from "chalk";
-import {CyanSafe, IAutoInquire, IAutoMapper} from "./classLibrary/TargetUtil/CyanResponse";
-import {AutoMapper} from "./classLibrary/TargetUtil/AutoMapper";
-import {AutoInquire} from "./classLibrary/TargetUtil/AutoInquire";
+import {CyanSafe, IAutoInquire} from "./classLibrary/TargetUtil/CyanResponse";
 import * as path from "path";
 import {ExecuteCommandSimple, GenerateTemplate, Interrogate} from "./generator";
-import {Utility} from "./classLibrary/Utility";
 import {FakeInquirer} from "./classLibrary/Permute/FakeInquirer";
 import {InquirerSpy} from "./classLibrary/Permute/InquirerSpy";
 import {IPermuteManager, PermuteManager} from "./classLibrary/Permute/PermuteManager";
@@ -13,6 +10,7 @@ import {Bar} from "cli-progress";
 import {GuidResolver} from "./classLibrary/ParsingStrategy/GuidResolver";
 import * as fs from "fs";
 import * as rimraf from "rimraf";
+import {Dependency} from "./Depedency";
 
 async function Concurrent<R>(array: any[], a: ((e) => Promise<R>)): Promise<R[]> {
 	let prom: Promise<R>[] = [];
@@ -29,36 +27,34 @@ async function Concurrent<R>(array: any[], a: ((e) => Promise<R>)): Promise<R[]>
 }
 
 
-export async function Permute(u: Utility, git: boolean, copyNode: boolean, from: string, to: string): Promise<string> {
+export async function Permute(dep: Dependency, git: boolean, copyNode: boolean, from: string, to: string): Promise<string> {
 	let f: string = path.resolve(process.cwd(), from);
 	if (git) {
-		let gitSimulate: GitSimulator = new GitSimulator(u.c);
+		let gitSimulate: GitSimulator = new GitSimulator(dep.core);
 		f = await gitSimulate.SimulateGit(process.cwd(), from);
 		console.log(chalk.blueBright(f));
 	}
 	let ret = "";
 	try {
-		let autoMapper: IAutoMapper = new AutoMapper(u);
-		let autoInquire: IAutoInquire = new AutoInquire(u, autoMapper);
-		let fakeInquire: IAutoInquire = new FakeInquirer(autoInquire);
-		let cyanSafe: { key: string, val: CyanSafe }[] = await Spy(u, f, to, autoMapper);
+		let fakeInquire: IAutoInquire = new FakeInquirer(dep.autoInquirer);
+		let cyanSafe: { key: string, val: CyanSafe }[] = await Spy(dep, f, to);
 		
 		console.info(chalk.greenBright("Completed getting all permutations!"));
 		let folders: string[] = cyanSafe.Map(c => path.join(c.key, c.val.npm || ""));
 		
 		cyanSafe.Each(c => c.val.docs.usage.git = false).Each(c => delete c.val.npm);
 		
-		let logs: string[] = await Concurrent(cyanSafe, (c: { key: string, val: CyanSafe }) => StealLogs(u, f, c, autoMapper, fakeInquire, copyNode));
+		let logs: string[] = await Concurrent(cyanSafe, (c: { key: string, val: CyanSafe }) => StealLogs(dep, f, c, fakeInquire, copyNode));
 		let JSONLog: string = path.resolve(process.cwd(), to, "logs.json");
 		let dest: string = path.resolve(process.cwd(), to, "logs.txt");
-		u.SafeWriteFile(dest, logs.join("\n\n"));
+		dep.util.SafeWriteFile(dest, logs.join("\n\n"));
 		let obj: Map<string, boolean[]>[] = cyanSafe
 			.Map(e => e.val.flags)
 			.Each(e => delete e["cyan.docs"])
 			.Map(e => e.AsMap() as Map<string, boolean>)
-			.Map((e: Map<string, boolean>) => e.MapValue(v => u.c.WrapArray<boolean>(v) as boolean[]));
+			.Map((e: Map<string, boolean>) => e.MapValue(v => dep.core.WrapArray<boolean>(v) as boolean[]));
 		
-		u.SafeWriteFile(JSONLog, JSON.stringify(
+		dep.util.SafeWriteFile(JSONLog, JSON.stringify(
 			obj.Reduce((a, b) => {
 				let values: boolean[][] = a.Values().Map((e, i) => e.concat(b.Values()[i]));
 				return a.Keys().Merge(values);
@@ -74,8 +70,7 @@ export async function Permute(u: Utility, git: boolean, copyNode: boolean, from:
 		}
 		
 		ret = "Completed!";
-	}
-	catch (e) {
+	} catch (e) {
 		ret = chalk.redBright(e);
 	}
 	if (git) {
@@ -84,7 +79,7 @@ export async function Permute(u: Utility, git: boolean, copyNode: boolean, from:
 	return ret;
 }
 
-async function StealLogs(util: Utility, templatePath: string, settings: { key: string, val: CyanSafe }, autoMapper: IAutoMapper, autoInquire: IAutoInquire, copyNode: boolean): Promise<string> {
+async function StealLogs(dep: Dependency, templatePath: string, settings: { key: string, val: CyanSafe }, autoInquire: IAutoInquire, copyNode: boolean): Promise<string> {
 	let logger = console.log;
 	let logs: string = "\n\n==== start ====\n\n";
 	
@@ -111,19 +106,19 @@ async function StealLogs(util: Utility, templatePath: string, settings: { key: s
 	};
 	
 	let dest: string = settings.key;
-	await GenerateTemplate(util, templatePath, dest, settings.val, autoMapper, autoInquire, copyNode);
+	await GenerateTemplate(dep, templatePath, dest, settings.val, copyNode);
 	logs += "\n==== end ====\n\n";
 	let logFile: string = path.resolve(process.cwd(), dest, "cyanprint_logs.txt");
 	let cyanDiagram: string = path.resolve(process.cwd(), dest, "cyanprint_tree.json");
-	util.SafeWriteFile(logFile, logs);
-	util.SafeWriteFile(cyanDiagram, JSON.stringify(settings.val, null, 4));
+	dep.util.SafeWriteFile(logFile, logs);
+	dep.util.SafeWriteFile(cyanDiagram, JSON.stringify(settings.val, null, 4));
 	console.log = logger;
 	return logs;
 }
 
-async function Spy(u: Utility, f: string, to: string, autoMapper: IAutoMapper): Promise<{ key: string, val: CyanSafe }[]> {
-	let permute: IPermuteManager = new PermuteManager(u.c);
-	let spyInquire: IAutoInquire = new InquirerSpy(u, permute);
+async function Spy(dep: Dependency, f: string, to: string): Promise<{ key: string, val: CyanSafe }[]> {
+	let permute: IPermuteManager = new PermuteManager(dep.core);
+	let spyInquire: IAutoInquire = new InquirerSpy(dep.util, permute);
 	
 	let ret: { key: string, val: CyanSafe }[] = [];
 	
@@ -133,13 +128,12 @@ async function Spy(u: Utility, f: string, to: string, autoMapper: IAutoMapper): 
 		if (!flag) {
 			permute.Start(true);
 			flag = true;
-		}
-		else {
+		} else {
 			permute.Start();
 		}
-		let guid: GuidResolver = new GuidResolver(u.c);
+		let guid: GuidResolver = new GuidResolver(dep.core);
 		let dest: string = path.join(to, findPath(to, guid));
-		let cyan: CyanSafe = await Interrogate(u, __dirname, f, dest, spyInquire, autoMapper);
+		let cyan: CyanSafe = await Interrogate(dep, spyInquire, f, dest);
 		permute.End();
 		ret.push({key: dest, val: cyan});
 		count++;

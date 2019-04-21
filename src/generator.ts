@@ -1,4 +1,3 @@
-import {Utility} from "./classLibrary/Utility";
 import {
 	Contributing,
 	Cyan,
@@ -34,17 +33,18 @@ import {Execute} from "./classLibrary/TargetUtil/Execute";
 import {CyanParser} from "./classLibrary/SpecialParser/CyanParser";
 import inquirer, {Inquirer} from "inquirer";
 import {spawn} from "child_process";
+import {Dependency} from "./Depedency";
 
 
-export async function GenerateTemplate(util: Utility, templatePath: string, folderName: string, settings: CyanSafe, autoMapper: IAutoMapper, autoInquire: IAutoInquire, copyNode: boolean): Promise<string> {
+export async function GenerateTemplate(dep: Dependency, templatePath: string, folderName: string, settings: CyanSafe, copyNode: boolean): Promise<string> {
 	
 	//Generate baseline file fileFactory with To and From reading settled
 	let to: string = path.resolve(process.cwd(), folderName);
-	let fileFactory: IFileFactory = new SimpleFileFactory(util.c, templatePath, to);
+	let fileFactory: IFileFactory = new SimpleFileFactory(dep.core, templatePath, to);
 	
 	//Check if the target path is empty
 	if (fs.existsSync(to)) {
-		let del = await autoInquire.InquirePredicate("There is an existing folder " + chalk.yellowBright(folderName) + ", do you want do delete that folder and proceed?");
+		let del = await dep.autoInquirer.InquirePredicate("There is an existing folder " + chalk.yellowBright(folderName) + ", do you want do delete that folder and proceed?");
 		if (!del) return chalk.redBright("Template creation has been halted");
 		console.log(chalk.cyanBright("Please wait..."));
 		rimraf.sync(to);
@@ -57,26 +57,26 @@ export async function GenerateTemplate(util: Utility, templatePath: string, fold
 	
 	console.log(chalk.cyanBright("Preparing template, please wait..."));
 	//Setup GlobFactory to read streams
-	let globFactory: GlobFactory = new GlobFactory(util, fileFactory);
+	let globFactory: GlobFactory = new GlobFactory(dep.util, fileFactory);
 	
 	
 	//Create all relevant parsing strategy
 	let strategies: ParsingStrategy[] = [
-		new GuidResolver(util.c),
-		new IfElseResolver(util),
-		new InverseIfElseResolver(util),
-		new InlineFlagResolver(util, settings.comments),
-		new InverseInlineFlagResolver(util, settings.comments),
-		new VariableResolver(util),
-		new MoveResolver(util),
-		new PackageResolver(util)
+		new GuidResolver(dep.core),
+		new IfElseResolver(dep.util),
+		new InverseIfElseResolver(dep.util),
+		new InlineFlagResolver(dep.util, settings.comments),
+		new InverseInlineFlagResolver(dep.util, settings.comments),
+		new VariableResolver(dep.util),
+		new MoveResolver(dep.util),
+		new PackageResolver(dep.util)
 	];
 	
-	let parser: Parser = new Parser(util, strategies, settings);
+	let parser: Parser = new Parser(dep.util, strategies, settings);
 	
 	//Special Parsing Strategies
-	let licenseParser: LicenseResolver = new LicenseResolver(new VariableResolver(util));
-	let contributingParser: ContributingResolver = new ContributingResolver(util.c);
+	let licenseParser: LicenseResolver = new LicenseResolver(new VariableResolver(dep.util));
+	let contributingParser: ContributingResolver = new ContributingResolver(dep.core);
 	
 	console.log(chalk.greenBright("Preparation done!"));
 	console.log(chalk.cyanBright("Performing variable and flag scans..."));
@@ -92,12 +92,12 @@ export async function GenerateTemplate(util: Utility, templatePath: string, fold
 	
 	
 	//Add in the cyan.docs flag
-	settings.flags = autoMapper.JoinObjects(settings.flags, docParser.GetAllFlags());
-	settings.variable = autoMapper.JoinObjects(settings.variable, docParser.GetVariables());
+	settings.flags = dep.autoMapper.JoinObjects(settings.flags, docParser.GetAllFlags());
+	settings.variable = dep.autoMapper.JoinObjects(settings.variable, docParser.GetVariables());
 	
 	//Set the folder name in
 	let fn: object = {cyan: {folder: {name: folderName.ReplaceAll("\\\\", "/").split("/").Last()!}}};
-	settings.variable = autoMapper.JoinObjects(settings.variable, fn);
+	settings.variable = dep.autoMapper.JoinObjects(settings.variable, fn);
 	
 	//Generate flag counting data structures
 	parser.CountFiles(files);
@@ -118,7 +118,7 @@ export async function GenerateTemplate(util: Utility, templatePath: string, fold
 	let ok: boolean = parser.CountOccurence(files);
 	
 	if (!ok) {
-		let answers: boolean = await autoInquire.InquirePredicate("There were variables missing from the template file, are you sure you want to continue?");
+		let answers: boolean = await dep.autoInquirer.InquirePredicate("There were variables missing from the template file, are you sure you want to continue?");
 		if (!answers) return "The template generation has been cancelled";
 		console.log(chalk.greenBright("Ignoring warning..."));
 	}
@@ -133,7 +133,7 @@ export async function GenerateTemplate(util: Utility, templatePath: string, fold
 	console.log(chalk.cyanBright("Generating template..."));
 	
 	//Asynchronous write to target directory
-	let writer: FileWriter = new FileWriter(util);
+	let writer: FileWriter = new FileWriter(dep.util);
 	await writer.AWriteFile(files);
 	
 	if (settings.npm) {
@@ -159,7 +159,7 @@ export async function GenerateTemplate(util: Utility, templatePath: string, fold
 		console.log(reply);
 		
 		if (git.remote != null) {
-			let useRemote: boolean = await autoInquire.InquirePredicate("Do you want to set your remote 'origin' to " + chalk.yellowBright(git.remote) + " and immediately push to origin?");
+			let useRemote: boolean = await dep.autoInquirer.InquirePredicate("Do you want to set your remote 'origin' to " + chalk.yellowBright(git.remote) + " and immediately push to origin?");
 			if (useRemote) {
 				await ExecuteCommandSimple("git", ["remote", "add", "origin", git.remote], folderName);
 				let reply: string = await ExecuteCommand("git", ["push", "origin", "--all"], "Added and pushed to remote repository", folderName);
@@ -170,17 +170,20 @@ export async function GenerateTemplate(util: Utility, templatePath: string, fold
 	return chalk.greenBright("Complete~!!");
 }
 
-export async function Interrogate(util: Utility, dir: string, templatePath: string, folderName: string, autoInquire: IAutoInquire, autoMapper: IAutoMapper): Promise<CyanSafe> {
+// Executes the cyan.config.js
+export async function Interrogate(dep: Dependency, autoInquirer: IAutoInquire, templatePath: string, folderName: string): Promise<CyanSafe> {
 	//Gets relative path to configure file of the selected template
 	let configFile = path.resolve(templatePath, "./cyan.config.js");
 	let relConfigPath: string = path.relative(__dirname, configFile);
 	
-	let execute: Execute = new Execute(util.c, folderName, __dirname, configFile, autoInquire, autoMapper);
+	let execute: Execute = new Execute(dep.core, folderName, __dirname, configFile, autoInquirer, dep.autoMapper);
 	let cyanSafe: CyanParser = new CyanParser();
 	
 	//Get Template generating functions
-	let Template: (nameFolder: string, c: Chalk, inq: Inquirer, autoInquire: IAutoInquire, autoMap: IAutoMapper, execute: Execute) => Promise<Cyan> = eval(`require("${relConfigPath.ReplaceAll("\\\\", "/")}")`);
-	let rawSettings: Cyan = await Template(folderName.ReplaceAll("\\\\", "/").split('/').Last()!, chalk, inquirer, autoInquire, autoMapper, execute);
+	let Template: (nameFolder: string, c: Chalk, inq: Inquirer, autoInquire: IAutoInquire, autoMap: IAutoMapper, execute: Execute) => Promise<Cyan>
+		= eval(`require("${relConfigPath.ReplaceAll("\\\\", "/")}")`);
+	let rawSettings: Cyan = await Template(folderName.ReplaceAll("\\\\", "/").split('/').Last()!, chalk, inquirer, autoInquirer, dep.autoMapper, execute);
+	// Escape and normalize raw settings to "safe"
 	return cyanSafe.Save(rawSettings);
 }
 

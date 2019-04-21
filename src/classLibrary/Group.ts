@@ -92,7 +92,8 @@ export class Group {
 	}
 	
 	ListTemplate(key: string): [string, string][] {
-		return this.ObtainGroupData(key).templates.AsMap<string>().Map((k, v) => [k, v] as [string, string]);
+		return this.ObtainGroupData(key).templates.AsMap<string>()
+		           .Map((k, v) => [k, v] as [string, string]);
 	}
 	
 	AddTemplate(key: string, templateKey: string, templateName: string): void {

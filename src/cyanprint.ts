@@ -57,7 +57,7 @@ program
 	.alias("c")
 	.description("create a project from installed templates")
 	.action(async function (folderName: string) {
-		let reply: string = await Create(objex, u, folderName);
+		let reply: string = await Create(dep, folderName);
 		console.log(reply);
 		process.exit(0);
 	});
@@ -120,7 +120,7 @@ program
 		
 		let copyNode: boolean = cmd["copyNode"] != null;
 		let git: boolean = cmd["git"] != null;
-		let reply = await Permute(u, git, copyNode, from, to);
+		let reply = await Permute(dep, git, copyNode, from, to);
 		console.log(reply);
 		process.exit(0);
 	});
@@ -135,7 +135,7 @@ program
 		let copyNode: boolean = cmd["copyNode"] != null;
 		let git: boolean = cmd["git"] != null;
 		
-		let reply = await Try(u, from, to, git, copyNode);
+		let reply = await Try(dep, from, to, git, copyNode);
 		console.log(reply);
 		process.exit(0);
 	});
