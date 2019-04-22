@@ -12,7 +12,7 @@ import {TemplateResponse} from "./classLibrary/TemplateData";
 import fetch, {Response} from "node-fetch";
 
 
-export async function Install(key: string, group: string, copyNode: boolean, dep: Dependency): Promise<string> {
+export async function InstallTemplate(key: string, group: string, copyNode: boolean, dep: Dependency): Promise<string> {
 	// Obtain relative path to global node folder
 	const fromPath: string = path.relative(__dirname, process.cwd());
 	

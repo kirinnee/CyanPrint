@@ -7,10 +7,10 @@ let opti: Options.Optimization = {
 		new TerserPlugin({
 			terserOptions: {
 				compress: {
-					unsafe: true
+					unsafe: false
 				},
 				output: {comments: false},
-				toplevel: true
+				toplevel: false
 			}
 		})
 	]

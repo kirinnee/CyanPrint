@@ -1,4 +1,4 @@
 {
-	"main":     "Inbuilt Templates",
-	"frontend": "Frontend Templates"
+	"main": "Inbuilt Templates",
+	"backend": "Backend"
 }

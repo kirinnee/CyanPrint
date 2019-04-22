@@ -6,6 +6,9 @@ import {Utility} from "./classLibrary/Utility";
 import chalk from "chalk";
 import {AutoMapper} from "./classLibrary/TargetUtil/AutoMapper";
 import {AutoInquire} from "./classLibrary/TargetUtil/AutoInquire";
+import {Dependency} from "./Depedency";
+import {GroupResponse} from "./classLibrary/GroupData";
+import {InstallTemplate} from "./install";
 
 const core: Core = new Kore();
 core.ExtendPrimitives();
@@ -52,4 +55,34 @@ function ListTemplates(key: string): string {
 	return group.ListTemplate(key).Map(([k, v]) => `${chalk.cyanBright(v)} ( ${chalk.red(k)} )`).join("\n");
 }
 
-export {CreateGroup, DeleteGroup, ListGroup, ExistGroup, ListTemplates};
+async function InstallGroup(dep: Dependency, key: string): Promise<string> {
+	const red = chalk.red;
+	const cyan = chalk.cyanBright;
+	// Check if group exist
+	const exist = await dep.api.GroupExist(key);
+	if (!exist) return red(`Group ${key} does not exist`);
+	
+	//Pull group data
+	const groupData: GroupResponse = await dep.api.GetGroupData(key);
+	
+	
+	if (group.Exist(groupData.unique_key)) {
+		const override = await dep.autoInquirer.InquirePredicate(`Group ${key} already exist, do you want to re-install? This cannot be undone.`);
+		if (!override) return red(`User cancelled`);
+		const success = group.Delete(key);
+		if (!success) return red("Failed to remove old version, please try again");
+	}
+	
+	const success = group.Create(groupData.unique_key, groupData.display_name, groupData.author);
+	if (!success) return red("Failed to create group, possibly due to old version still existing. Please try again.");
+	
+	for (const e of groupData.templates) {
+		console.log(cyan("========================"));
+		console.log(cyan(`Installing ${e}...`));
+		const out: string = await InstallTemplate(e, key, false, dep);
+		console.log(out);
+	}
+	return cyan.greenBright(`Installation of group ${key} completed!`);
+}
+
+export {CreateGroup, DeleteGroup, ListGroup, ExistGroup, ListTemplates, InstallGroup};

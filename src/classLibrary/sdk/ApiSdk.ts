@@ -1,5 +1,6 @@
 import fetch, {HeadersInit, RequestInit, Response} from "node-fetch"
 import {TemplateData, TemplateResponse} from "../TemplateData";
+import {GroupResponse} from "../GroupData";
 
 class ApiSdk {
 	
@@ -59,6 +60,23 @@ class ApiSdk {
 	async GetTemplateData(k: string): Promise<TemplateResponse> {
 		try {
 			return await this.ping<TemplateResponse>(`template/${k}`, "GET");
+		} catch (e) {
+			return Promise.reject(e);
+		}
+	}
+	
+	async GroupExist(k: string): Promise<boolean> {
+		try {
+			await this.ping<void>(`group/${k}`, "HEAD");
+			return true;
+		} catch {
+			return false;
+		}
+	}
+	
+	async GetGroupData(k: string): Promise<GroupResponse> {
+		try {
+			return await this.ping<GroupResponse>(`group/${k}`, "GET");
 		} catch (e) {
 			return Promise.reject(e);
 		}

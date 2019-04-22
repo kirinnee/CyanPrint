@@ -1,7 +1,7 @@
 {
 	"compilerOptions": {
 		"module":                       "commonjs",
-		"target":                       "es6",
+		"target":                       "es5",
 		"sourceMap":                    true,
 		"removeComments":               false,
 		"moduleResolution":             "node",
@@ -16,14 +16,15 @@
 		"esModuleInterop":              true,
 		"allowSyntheticDefaultImports": true,
 		"lib":                          [
-			"dom",
 			"es5",
 			"es6",
 			"es7",
-			"esnext"
+			"esnext",
+			"dom"
 		]
 	},
-	"exclude": [
-		"node_modules"
+	"exclude":         [
+		"node_modules",
+		"templates"
 	]
 }
