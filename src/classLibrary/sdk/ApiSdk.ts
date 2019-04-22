@@ -112,6 +112,7 @@ class ApiSdk {
 				secret,
 				email: group.email,
 				readme: group.readme,
+				templates: Object.keys(group.templates)
 			};
 			await this.ping<GroupResponse>(`group/${group.key}`, "PUT", body);
 			return;

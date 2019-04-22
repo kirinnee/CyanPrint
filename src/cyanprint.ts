@@ -2,7 +2,16 @@ import program from 'commander';
 import {Utility} from "./classLibrary/Utility";
 import {InstallTemplate} from "./install";
 import chalk from 'chalk';
-import {CreateGroup, DeleteGroup, ExistGroup, InstallGroup, ListGroup, ListTemplates, UpdateGroup} from "./group";
+import {
+	CreateGroup,
+	DeleteGroup,
+	ExistGroup,
+	InstallGroup,
+	ListGroup,
+	ListTemplates,
+	PushGroup,
+	UpdateGroup
+} from "./group";
 import {Core, Kore} from "@kirinnee/core";
 import {Try} from "./try";
 import {Permute} from "./permute";
@@ -105,8 +114,17 @@ const group = async function (action: string, key: string, name: string, email: 
 				console.log(chalk.yellowBright("Usage:") + " group update <group-key>");
 			}
 			break;
+		case "p":
+		case "push":
+			if (key != null && name != null) {
+				const r = await PushGroup(dep, key, name);
+				console.log(r);
+			} else {
+				console.log(chalk.yellowBright("Usage:") + " group push <group-key> <secret-token>");
+			}
+			break;
 		default:
-			console.log(chalk.redBright("Unknown group sub-command: available commands: \n\tcreate - creates a new group\n\tdelete - deletes a group\n\tlist - show the list of groups"));
+			console.log(chalk.redBright("Unknown group sub-command: available commands: \n\tcreate - creates a new group\n\tdelete - deletes a group\n\tlist - show the list of groups\n\tupdate - update the group and all its template\n\tinstall - install a group from online repository\n\tpush - pushes the group to online host"));
 	}
 	process.exit(0);
 };

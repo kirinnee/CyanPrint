@@ -7,9 +7,10 @@ import chalk from "chalk";
 import {AutoMapper} from "./classLibrary/TargetUtil/AutoMapper";
 import {AutoInquire} from "./classLibrary/TargetUtil/AutoInquire";
 import {Dependency} from "./Depedency";
-import {GroupResponse} from "./classLibrary/GroupData";
+import {GroupData, GroupResponse} from "./classLibrary/GroupData";
 import {InstallTemplate} from "./install";
 import fse from "fs-extra";
+import fs from "graceful-fs";
 import rimraf = require("rimraf");
 
 const core: Core = new Kore();
@@ -133,4 +134,19 @@ async function InstallGroup(dep: Dependency, key: string): Promise<string> {
 	return cyan.greenBright(`Installation of group ${key} completed!`);
 }
 
-export {CreateGroup, DeleteGroup, ListGroup, ExistGroup, ListTemplates, InstallGroup, UpdateGroup};
+async function PushGroup(dep: Dependency, key: string, secret: string): Promise<string> {
+	if (!group.Exist(key)) return chalk.red(`Group ${key} does not exist!`);
+	const groupData: GroupData = group.ObtainGroupData(key);
+	const readMePath: string = path.resolve(root, key, groupData.readme);
+	const readMeBinary = fs.readFileSync(readMePath);
+	groupData.readme = Buffer.from(readMeBinary).toString('base64');
+	try {
+		await dep.api.UpdateGroup(groupData, secret);
+		return chalk.greenBright(`Successfully pushed group ${key} to CyanPrint host!`);
+	} catch (e) {
+		return chalk.red(JSON.parse(e.message));
+	}
+	
+}
+
+export {CreateGroup, DeleteGroup, ListGroup, ExistGroup, ListTemplates, InstallGroup, UpdateGroup, PushGroup};
