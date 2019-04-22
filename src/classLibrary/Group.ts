@@ -23,7 +23,7 @@ export class Group {
 	}
 	
 	
-	Create(key: string, name: string, email: string): boolean {
+	Create(key: string, name: string, email: string, readme: string, readMeContent: string): boolean {
 		if (this.Exist(key)) {
 			return false;
 		} else {
@@ -37,7 +37,8 @@ export class Group {
 				name,
 				key,
 				email,
-				templates
+				templates,
+				readme,
 			};
 			const groupDataPath: string = path.resolve(this.templateRoot, key, "cyan.group.json");
 			const string: string = JSON.stringify(groupData);
@@ -48,6 +49,10 @@ export class Group {
 			content[key] = name;
 			const out: string = JSON.stringify(content);
 			this.util.SafeWriteFile(this.TopLevelConfig, out);
+			
+			//Create Read Me file
+			const targetPath = path.resolve(this.templateRoot, key, readme);
+			this.util.SafeWriteFile(targetPath, readMeContent);
 			
 			//Reply to console on progress
 			return true;

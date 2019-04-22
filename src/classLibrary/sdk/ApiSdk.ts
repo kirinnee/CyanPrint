@@ -82,6 +82,12 @@ class ApiSdk {
 		}
 	}
 	
+	async getReadMeContent(k: string): Promise<string> {
+		const ep = this.Endpoint(k);
+		const response: Response = await fetch(ep);
+		return await response.text()
+	};
+	
 	async UpdateTemplate(template: TemplateData, secret: string): Promise<void> {
 		try {
 			const body = {

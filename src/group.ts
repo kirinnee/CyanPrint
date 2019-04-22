@@ -23,8 +23,15 @@ const util = new Utility(core);
 let root = path.resolve(__dirname, '../templates');
 let group: Group = new Group(core, objex, root, util);
 
-function CreateGroup(key: string, name: string, email: string): string {
-	const success = group.Create(key, name, email);
+function CreateGroup(key: string, name: string, email: string, readme: string): string {
+	const content =
+		`# ${name}
+*Unique Key*: ${key}
+
+# Author
+${email}
+`;
+	const success = group.Create(key, name, email, readme, content);
 	if (success)
 		return chalk.greenBright("The Group " + chalk.yellowBright(key) + ` (${name}) has been created!`);
 	return chalk.redBright("The Group " + chalk.yellowBright(key) + ` (${name}) already exist!`);
@@ -72,7 +79,8 @@ async function UpdateGroup(dep, key: string): Promise<string> {
 	const old: string = target + "_old_kirin_temp_folder";
 	fse.moveSync(target, old);
 	try {
-		const success = group.Create(groupData.unique_key, groupData.display_name, groupData.author);
+		const content = await dep.api.getReadMeContent(groupData.readme);
+		const success = group.Create(groupData.unique_key, groupData.display_name, groupData.author, "README.MD", content);
 		if (!success) throw red("Failed to create group, possibly due to old version still existing. Please try again.");
 		
 		for (const e of groupData.templates) {
@@ -110,8 +118,11 @@ async function InstallGroup(dep: Dependency, key: string): Promise<string> {
 		if (!success) return red("Failed to remove old version, please try again");
 	}
 	
-	const success = group.Create(groupData.unique_key, groupData.display_name, groupData.author);
+	
+	const content = await dep.api.getReadMeContent(groupData.readme);
+	const success = group.Create(groupData.unique_key, groupData.display_name, groupData.author, "README.MD", content);
 	if (!success) return red("Failed to create group, possibly due to old version still existing. Please try again.");
+	
 	
 	for (const e of groupData.templates) {
 		console.log(cyan("========================"));

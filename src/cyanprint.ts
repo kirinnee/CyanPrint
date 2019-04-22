@@ -15,6 +15,7 @@ import {AutoInquire} from "./classLibrary/TargetUtil/AutoInquire";
 import {AutoMapper} from "./classLibrary/TargetUtil/AutoMapper";
 import {RemoveTemplate} from "./remove";
 import {UpdateTemplate} from "./upgrade";
+import {GroupResponse} from "./classLibrary/GroupData";
 
 declare global {
 	interface String {
@@ -64,7 +65,7 @@ const group = async function (action: string, key: string, name: string, email: 
 		case "c":
 		case "create":
 			if (name != null && key != null && email != null) {
-				console.log(CreateGroup(key, name, email));
+				console.log(CreateGroup(key, name, email, "README.MD"));
 			} else {
 				console.log(chalk.yellowBright("Usage:") + " group create <group-key> <group-name> <author-email>");
 			}
@@ -215,6 +216,14 @@ program
 	.command("u <group> <key>")
 	.description("updates a template of a group")
 	.action(update);
+
+program
+	.command("test")
+	.action(async () => {
+		const gd: GroupResponse = await api.GetGroupData("sample");
+		const content = await api.getReadMeContent(gd.readme);
+		console.log(content);
+	});
 
 program.parse(process.argv);
 
