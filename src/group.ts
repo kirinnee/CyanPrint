@@ -9,6 +9,8 @@ import {AutoInquire} from "./classLibrary/TargetUtil/AutoInquire";
 import {Dependency} from "./Depedency";
 import {GroupResponse} from "./classLibrary/GroupData";
 import {InstallTemplate} from "./install";
+import fse from "fs-extra";
+import rimraf = require("rimraf");
 
 const core: Core = new Kore();
 core.ExtendPrimitives();
@@ -55,7 +57,7 @@ function ListTemplates(key: string): string {
 	return group.ListTemplate(key).Map(([k, v]) => `${chalk.cyanBright(v)} ( ${chalk.red(k)} )`).join("\n");
 }
 
-async function InstallGroup(dep: Dependency, key: string): Promise<string> {
+async function UpdateGroup(dep, key: string): Promise<string> {
 	const red = chalk.red;
 	const cyan = chalk.cyanBright;
 	// Check if group exist
@@ -65,6 +67,41 @@ async function InstallGroup(dep: Dependency, key: string): Promise<string> {
 	//Pull group data
 	const groupData: GroupResponse = await dep.api.GetGroupData(key);
 	
+	//Move old data
+	const target: string = path.resolve(root, key);
+	const old: string = target + "_old_kirin_temp_folder";
+	fse.moveSync(target, old);
+	try {
+		const success = group.Create(groupData.unique_key, groupData.display_name, groupData.author);
+		if (!success) throw red("Failed to create group, possibly due to old version still existing. Please try again.");
+		
+		for (const e of groupData.templates) {
+			console.log(cyan("========================"));
+			console.log(cyan(`Installing ${e}...`));
+			const out: string = await InstallTemplate(e, key, false, dep);
+			console.log(out);
+		}
+		rimraf.sync(old);
+		return cyan.greenBright(`Update of group ${key} completed!`);
+	} catch (e) {
+		//Roll back
+		rimraf.sync(target);
+		fse.moveSync(old, target);
+		return e;
+	}
+	
+	
+}
+
+async function InstallGroup(dep: Dependency, key: string): Promise<string> {
+	const red = chalk.red;
+	const cyan = chalk.cyanBright;
+	// Check if group exist
+	const exist = await dep.api.GroupExist(key);
+	if (!exist) return red(`Group ${key} does not exist`);
+	
+	//Pull group data
+	const groupData: GroupResponse = await dep.api.GetGroupData(key);
 	
 	if (group.Exist(groupData.unique_key)) {
 		const override = await dep.autoInquirer.InquirePredicate(`Group ${key} already exist, do you want to re-install? This cannot be undone.`);
@@ -85,4 +122,4 @@ async function InstallGroup(dep: Dependency, key: string): Promise<string> {
 	return cyan.greenBright(`Installation of group ${key} completed!`);
 }
 
-export {CreateGroup, DeleteGroup, ListGroup, ExistGroup, ListTemplates, InstallGroup};
+export {CreateGroup, DeleteGroup, ListGroup, ExistGroup, ListTemplates, InstallGroup, UpdateGroup};

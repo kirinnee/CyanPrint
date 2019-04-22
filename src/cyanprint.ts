@@ -2,7 +2,7 @@ import program from 'commander';
 import {Utility} from "./classLibrary/Utility";
 import {InstallTemplate} from "./install";
 import chalk from 'chalk';
-import {CreateGroup, DeleteGroup, ExistGroup, InstallGroup, ListGroup, ListTemplates} from "./group";
+import {CreateGroup, DeleteGroup, ExistGroup, InstallGroup, ListGroup, ListTemplates, UpdateGroup} from "./group";
 import {Core, Kore} from "@kirinnee/core";
 import {Try} from "./try";
 import {Permute} from "./permute";
@@ -95,6 +95,15 @@ const group = async function (action: string, key: string, name: string, email: 
 				console.log(chalk.yellowBright("Usage:") + " group install <group-key>");
 			}
 			break;
+		case "u":
+		case "update":
+			if (key != null) {
+				const r = await UpdateGroup(dep, key);
+				console.log(r);
+			} else {
+				console.log(chalk.yellowBright("Usage:") + " group update <group-key>");
+			}
+			break;
 		default:
 			console.log(chalk.redBright("Unknown group sub-command: available commands: \n\tcreate - creates a new group\n\tdelete - deletes a group\n\tlist - show the list of groups"));
 	}
@@ -163,7 +172,10 @@ program
 	.option("-N --copy-node", "Copies node_module to target area")
 	.action(install);
 
-
+program
+	.command("g <action> [key] [name] [email]")
+	.description("Group functions - [create (c), deleted (d), list (l), install (i)]")
+	.action(group);
 program
 	.command("group <action> [key] [name] [email]")
 	.description("Group functions - [create (c), deleted (d), list (l), install (i)]")
