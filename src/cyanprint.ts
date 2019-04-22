@@ -25,6 +25,7 @@ import {AutoMapper} from "./classLibrary/TargetUtil/AutoMapper";
 import {RemoveTemplate} from "./remove";
 import {UpdateTemplate} from "./upgrade";
 import {GroupResponse} from "./classLibrary/GroupData";
+import {PushTemplate} from "./push";
 
 declare global {
 	interface String {
@@ -55,7 +56,7 @@ const dep: Dependency = {
 };
 
 program
-	.version('0.12.9');
+	.version('0.13.0');
 
 // error on unknown commands
 program
@@ -241,6 +242,18 @@ program
 		const gd: GroupResponse = await api.GetGroupData("sample");
 		const content = await api.getReadMeContent(gd.readme);
 		console.log(content);
+	});
+
+program
+	.command("push <secret>")
+	.description("Pushes the CyanPrint template in the current directory to the repository.")
+	.action(async (secret) => {
+		if (secret == null) {
+			console.log(chalk.yellowBright("Usage:") + " push <secret>");
+		} else {
+			const r = await PushTemplate(dep, secret);
+			console.log(r);
+		}
 	});
 
 program.parse(process.argv);

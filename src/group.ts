@@ -144,7 +144,7 @@ async function PushGroup(dep: Dependency, key: string, secret: string): Promise<
 		await dep.api.UpdateGroup(groupData, secret);
 		return chalk.greenBright(`Successfully pushed group ${key} to CyanPrint host!`);
 	} catch (e) {
-		return chalk.red(JSON.parse(e.message));
+		return chalk.red(JSON.stringify(e.message));
 	}
 	
 }

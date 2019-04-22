@@ -7,4 +7,4 @@ sample2/
 !.idea/*.iml
 !.idea/*.xml
 .idea/workspace.xml
-.idea/vsc.xml
+.idea/vcs.xml

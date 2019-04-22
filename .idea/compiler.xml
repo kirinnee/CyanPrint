@@ -4,5 +4,6 @@
     <option name="enableServiceForProjectsWithoutConfig" value="false" />
     <option name="nodeInterpreterTextField" value="node" />
     <option name="showAllErrors" value="true" />
+    <option name="versionType" value="EMBEDDED" />
   </component>
 </project>
