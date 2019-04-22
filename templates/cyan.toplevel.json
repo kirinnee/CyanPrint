@@ -1,5 +1,4 @@
 {
-	"main":    "Inbuilt Templates",
-	"backend": "Backend",
-	"sample":  "Sample Group"
+	"main": "Inbuilt Templates",
+	"backend": "Backend"
 }

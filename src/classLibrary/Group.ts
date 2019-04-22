@@ -4,6 +4,7 @@ import rimraf from 'rimraf';
 import {Core} from "@kirinnee/core";
 import {Utility} from "./Utility";
 import {Objex} from "@kirinnee/objex";
+import {GroupData} from "./GroupData";
 
 export class Group {
 	
@@ -116,9 +117,3 @@ export class Group {
 	
 }
 
-interface GroupData {
-	name: string,
-	key: string,
-	email: string,
-	templates: { [s: string]: string }
-}

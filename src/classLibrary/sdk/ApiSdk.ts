@@ -1,6 +1,6 @@
 import fetch, {HeadersInit, RequestInit, Response} from "node-fetch"
 import {TemplateData, TemplateResponse} from "../TemplateData";
-import {GroupResponse} from "../GroupData";
+import {GroupData, GroupResponse} from "../GroupData";
 
 class ApiSdk {
 	
@@ -98,6 +98,21 @@ class ApiSdk {
 		}
 	}
 	
+	
+	async UpdateGroup(group: GroupData, secret: string): Promise<void> {
+		try {
+			const body = {
+				name: group.name,
+				secret,
+				email: group.email,
+				readme: group.readme,
+			};
+			await this.ping<GroupResponse>(`group/${group.key}`, "PUT", body);
+			return;
+		} catch (e) {
+			return Promise.reject(e);
+		}
+	}
 	
 }
 

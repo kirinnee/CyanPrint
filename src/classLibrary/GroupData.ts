@@ -8,4 +8,12 @@ interface GroupResponse {
 	author: string;
 }
 
-export {GroupResponse}
+interface GroupData {
+	name: string,
+	key: string,
+	email: string,
+	readme: string,
+	templates: { [s: string]: string }
+}
+
+export {GroupResponse, GroupData}
