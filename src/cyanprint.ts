@@ -33,6 +33,9 @@ declare global {
 		
 		FileName(): string;
 	}
+	
+	const VERSION: string;
+	const PRODUCTION: boolean;
 }
 
 const core: Core = new Kore();
@@ -42,7 +45,7 @@ const objex: Objex = new ObjectX(core);
 objex.ExtendPrimitives();
 
 const u: Utility = new Utility(core);
-const api: ApiSdk = new ApiSdk("http://localhost:3001");
+const api: ApiSdk = new ApiSdk(PRODUCTION ? "http://localhost:3001" : "https://cyanprint.icu");
 const autoMapper: IAutoMapper = new AutoMapper(u);
 const autoInquirer: IAutoInquire = new AutoInquire(u, autoMapper);
 
@@ -56,7 +59,7 @@ const dep: Dependency = {
 };
 
 program
-	.version('0.13.0');
+	.version(VERSION);
 
 // error on unknown commands
 program

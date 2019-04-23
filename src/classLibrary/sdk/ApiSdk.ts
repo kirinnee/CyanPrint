@@ -83,7 +83,7 @@ class ApiSdk {
 	}
 	
 	async getReadMeContent(k: string): Promise<string> {
-		const ep = this.Endpoint(k);
+		const ep = PRODUCTION ? k : this.Endpoint(k);
 		const response: Response = await fetch(ep);
 		return await response.text()
 	};

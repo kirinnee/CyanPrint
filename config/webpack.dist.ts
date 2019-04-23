@@ -1,8 +1,9 @@
 import * as path from "path";
 import {opti} from "./webpack.optimizer";
-import webpack, {Entry} from "webpack";
+import webpack, {DefinePlugin, Entry} from "webpack";
 import {rules} from "./webpack.rules";
 import {Kore} from "@kirinnee/core";
+import {ExtractVersion} from "./version_extractor";
 
 let core = new Kore();
 core.ExtendPrimitives();
@@ -25,7 +26,13 @@ function GenerateConfig(entry: Entry, filename: string, mode: "development"|"pro
 	    resolve: {
 		    extensions: ['.ts', '.tsx', '.js']
 	    },
-	    plugins: [new webpack.BannerPlugin({banner: "#!/usr/bin/env node", raw: true})],
+	    plugins: [
+		    new webpack.BannerPlugin({banner: "#!/usr/bin/env node", raw: true}),
+		    new DefinePlugin({
+			    PRODUCTION: JSON.stringify(mode === 'production'),
+			    VERSION: JSON.stringify(ExtractVersion()),
+		    })
+	    ],
         mode: mode,
         devtool: "source-map", 
         module: {rules: rules},
