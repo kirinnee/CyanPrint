@@ -9,7 +9,50 @@ import {FileWriter} from "./classLibrary/FileWriter";
 import {Installer} from "./classLibrary/Installer";
 import fse from "fs-extra";
 import fetch, {Response} from "node-fetch"
+import {GroupData} from "./classLibrary/GroupData";
 import rimraf = require("rimraf");
+
+async function UpdateEverything(dep): Promise<string> {
+	const sure = await dep.autoInquirer.InquirePredicate(`Update all templates to the latest version? This cannot be undone.`);
+	if (!sure) return "User cancelled";
+	let root = path.resolve(__dirname, '../templates');
+	let g: Group = new Group(dep.core, dep.objex, root, dep.util);
+	const groups: string[] = g.ListAsArray().Map(([_, v]) => v);
+	for (const group of groups) {
+		await UpdateTemplatesInGroup(dep, group, false);
+	}
+	return "Completed updating all templates!";
+}
+
+async function UpdateTemplatesInGroup(dep: Dependency, group: string, confirm = true): Promise<string> {
+	let root = path.resolve(__dirname, '../templates');
+	let g: Group = new Group(dep.core, dep.objex, root, dep.util);
+	
+	//Check if group exist locally
+	if (!g.Exist(group)) return chalk.red(`Group ${group} does not exist!`);
+	
+	// Confirm if user wants to upgrade
+	if (confirm) {
+		const sure = await dep.autoInquirer.InquirePredicate(`Update all templates from Group ${group} to the latest version? This cannot be undone.`);
+		if (!sure) return "User cancelled";
+	}
+	
+	//Extract data and update each template
+	const data: GroupData = g.ObtainGroupData(group);
+	for (const key in data.templates) {
+		if (data.templates.hasOwnProperty(key)) {
+			const [t, s]: [string, boolean] = await UpdateTemplate(dep, key, group, false);
+			if (s) {
+				console.log(t);
+			} else {
+				console.log(chalk.red(`Failed updating template ${key}:`));
+				console.log(t);
+			}
+			
+		}
+	}
+	return "Done updating templates!";
+}
 
 async function UpdateTemplate(dep: Dependency, key: string, group: string, confirm: boolean = true): Promise<[string, boolean]> {
 	// check with server whether key exist
@@ -79,4 +122,4 @@ async function UpdateTemplate(dep: Dependency, key: string, group: string, confi
 	}
 }
 
-export {UpdateTemplate}
+export {UpdateTemplate, UpdateTemplatesInGroup, UpdateEverything}

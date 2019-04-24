@@ -1,6 +1,7 @@
 import fetch, {HeadersInit, RequestInit, Response} from "node-fetch"
 import {TemplateData, TemplateResponse} from "../TemplateData";
 import {GroupData, GroupResponse} from "../GroupData";
+import chalk from "chalk";
 
 class ApiSdk {
 	
@@ -34,17 +35,17 @@ class ApiSdk {
 	}
 	
 	private async fetch<T>(input: string, init?: RequestInit): Promise<T> {
+		
 		const response: Response = await fetch(input, init);
 		if (response.status === 204) {
 			return {} as T;
 		}
+		let body: T = {} as T;
 		try {
-			const body = await response.json();
-			if (!response.ok) return Promise.reject({name: "Error", message: body, type: response.status});
-			return body;
-		} catch {
-			return {} as T;
-		}
+			body = await response.json();
+		} catch {}
+		if (!response.ok) return Promise.reject({name: "Error", message: body, type: response.status});
+		return body;
 		
 	}
 	
@@ -52,7 +53,7 @@ class ApiSdk {
 		try {
 			await this.ping<void>(`template/${k}`, "HEAD");
 			return true;
-		} catch {
+		} catch (e) {
 			return false;
 		}
 	}
@@ -68,8 +69,9 @@ class ApiSdk {
 	async GroupExist(k: string): Promise<boolean> {
 		try {
 			await this.ping<void>(`group/${k}`, "HEAD");
+			console.log("ERROR: ", chalk.red("EROR"));
 			return true;
-		} catch {
+		} catch (e) {
 			return false;
 		}
 	}

@@ -68,6 +68,7 @@ function ListTemplates(key: string): string {
 async function UpdateGroup(dep, key: string): Promise<string> {
 	const red = chalk.red;
 	const cyan = chalk.cyanBright;
+	
 	// Check if group exist
 	const exist = await dep.api.GroupExist(key);
 	if (!exist) return red(`Group ${key} does not exist`);
@@ -108,6 +109,7 @@ async function InstallGroup(dep: Dependency, key: string): Promise<string> {
 	// Check if group exist
 	const exist = await dep.api.GroupExist(key);
 	if (!exist) return red(`Group ${key} does not exist`);
+	
 	
 	//Pull group data
 	const groupData: GroupResponse = await dep.api.GetGroupData(key);

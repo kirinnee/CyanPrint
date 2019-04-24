@@ -23,7 +23,7 @@ import {IAutoInquire, IAutoMapper} from "./classLibrary/TargetUtil/CyanResponse"
 import {AutoInquire} from "./classLibrary/TargetUtil/AutoInquire";
 import {AutoMapper} from "./classLibrary/TargetUtil/AutoMapper";
 import {RemoveTemplate} from "./remove";
-import {UpdateTemplate} from "./upgrade";
+import {UpdateEverything, UpdateTemplate, UpdateTemplatesInGroup} from "./upgrade";
 import {GroupResponse} from "./classLibrary/GroupData";
 import {PushTemplate} from "./push";
 
@@ -45,7 +45,7 @@ const objex: Objex = new ObjectX(core);
 objex.ExtendPrimitives();
 
 const u: Utility = new Utility(core);
-const api: ApiSdk = new ApiSdk(PRODUCTION ? "http://localhost:3001" : "https://cyanprint.icu");
+const api: ApiSdk = new ApiSdk(PRODUCTION ? "https://cyanprint.icu" : "http://localhost:3001");
 const autoMapper: IAutoMapper = new AutoMapper(u);
 const autoInquirer: IAutoInquire = new AutoInquire(u, autoMapper);
 
@@ -166,9 +166,18 @@ const remove = async function (group: string, key: string) {
 	console.log(reply);
 	process.exit(0);
 };
+
 const update = async function (group: string, key: string) {
-	const reply = await UpdateTemplate(dep, key, group);
-	console.log(reply);
+	if (group == null) {
+		const r = await UpdateEverything(dep);
+		console.log(r);
+	} else if (key == null) {
+		const reply = await UpdateTemplatesInGroup(dep, group);
+		console.log(reply);
+	} else {
+		const reply = await UpdateTemplate(dep, key, group);
+		console.log(reply);
+	}
 	process.exit(0);
 };
 
@@ -230,12 +239,12 @@ program
 
 
 program
-	.command("upgrade <group> <key>")
+	.command("upgrade [group] [key]")
 	.description("updates a template of a group")
 	.action(update);
 
 program
-	.command("u <group> <key>")
+	.command("u [group] [key]")
 	.description("updates a template of a group")
 	.action(update);
 
