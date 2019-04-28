@@ -31,7 +31,7 @@ Deploy:
     - /^v.*$/
   except:
     - branches
-  stage: deploy
+  stage: publish
   tags:
     - npm
   script: npm publish
