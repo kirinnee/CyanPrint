@@ -25,6 +25,10 @@ Build:
   tags:
     - npm
   script: yarn build
+  artifacts:
+    paths:
+      - dist/
+      - types/
 
 Deploy:
   only:
@@ -34,7 +38,9 @@ Deploy:
   stage: publish
   tags:
     - npm
-  script: npm publish
+  script:
+    - echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
+    - npm publish
 
 
 
