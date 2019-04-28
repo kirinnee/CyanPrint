@@ -60,7 +60,19 @@ class ApiSdk {
 	
 	async GetTemplateData(k: string): Promise<TemplateResponse> {
 		try {
-			return await this.ping<TemplateResponse>(`template/${k}`, "GET");
+			return await this.ping<TemplateResponse>(`template/${k}`, "GET", null, {
+				cli: "kirinnee"
+			});
+		} catch (e) {
+			return Promise.reject(e);
+		}
+	}
+	
+	async GetGroupData(k: string): Promise<GroupResponse> {
+		try {
+			return await this.ping<GroupResponse>(`group/${k}`, "GET", {
+				cli: "kirinnee"
+			});
 		} catch (e) {
 			return Promise.reject(e);
 		}
@@ -76,13 +88,6 @@ class ApiSdk {
 		}
 	}
 	
-	async GetGroupData(k: string): Promise<GroupResponse> {
-		try {
-			return await this.ping<GroupResponse>(`group/${k}`, "GET");
-		} catch (e) {
-			return Promise.reject(e);
-		}
-	}
 	
 	async getReadMeContent(k: string): Promise<string> {
 		const ep = PRODUCTION ? k : this.Endpoint(k);

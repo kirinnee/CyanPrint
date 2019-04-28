@@ -11,24 +11,30 @@ cache:
 Install:
   stage: install
   tags:
-    - frontend
+    - npm
   script: yarn install --prefer-offline
 
 Test:
   stage: test
   tags:
-    - frontend
+    - npm
   script: yarn test
 
 Build:
   stage: build
   tags:
-    - frontend
+    - npm
   script: yarn build
 
 Deploy:
+  only:
+    - /^v.*$/
+  except:
+    - branches
   stage: deploy
   tags:
-    - frontend
+    - npm
+  script: npm publish
+
 
 
