@@ -1,13 +1,22 @@
 ﻿
 # CyanPrint
 
+![](https://s3-ap-southeast-1.amazonaws.com/kirin.cyanprint/pages/index/assets/logo_def.png)
+
+Official Site: [CyanPrint.dev](https://cyanprint.dev)
+
 CyanPrint is a scaffolding CLI for people to create templates or blueprints to scaffold commonly used 
-templates and reduce boilerplate.
+templates and reduce boilerplate code. 
+
+Instead of spending time on setting up and configuring project builds, CyanPrint allows you to generate 
+projects from pre-built templates and jump right into development. No need to fuss about making libraries work 
+together - CyanPrint takes care of that for you.
 
 The template file lives within the project itself, hence your template is still testable, even workable on 
 its own.
 
- CyanPrint is an slightly more robust version of CookieCutter in NPM.
+ CyanPrint is an slightly more robust version of CookieCutter in NPM with a fully working online repository for 
+ ease of use.
  
  # Features
  - Inquirer.js to get data
@@ -24,42 +33,16 @@ its own.
  - Arbitrary Shell command execution
  - Permute possible outcome for testing
 
-# Existing Templates
+# Tutorial
+
+Please visit my website for the [tutorial](https://cyanprint.dev/tutorial/use/start)!
 
 
-# Using CyanPrint To Install Templates
+Everything below is for archive purpose as the documentation on the official site is still in progress!
+----
 
-1. Install npm or node on your machine
 
-2. Install binary using npm
-    ```shell
-    $ npm i cyanprint -g
-    ```
-3. Execute command at target folder
-    ```shell
-   $ cyan create <project-folder-name>
-    ```
-4. Choose your group and template.
-5. Follow through template choices!
-6. ????
-7. Profit
 
-# Write your Template (Tutorial)
-
-## Getting Started
-1. Install CLI globally
-    ```shell
-    npm i -g cyanprint
-    ```
-2. Generate a template to make a template! (#meta)
-    ```shell
-    cyan create first-CyanPrint
-    ```
-3. Choose the Template group `Main` by pressing Enter (If that is your only group).
-4. Choose the Template the template 'CyanPrint Template', which is installed by default.
-5. This tutorial will be done in Javascript instead of Typescript, so choose the Javascript option!
-6. Add which every documentation you want, this is only useful when you want to publish a template to github or any git host
-7. Wait for the template to be generated
 
 ## Basic Concepts
 CyanPrint replaces file, folder and content that has snippets of `var~name~` with user input, 
