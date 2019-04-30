@@ -1,7 +1,6 @@
 import fetch, {HeadersInit, RequestInit, Response} from "node-fetch"
 import {TemplateData, TemplateResponse} from "../TemplateData";
 import {GroupData, GroupResponse} from "../GroupData";
-import chalk from "chalk";
 
 class ApiSdk {
 	
@@ -70,9 +69,7 @@ class ApiSdk {
 	
 	async GetGroupData(k: string): Promise<GroupResponse> {
 		try {
-			return await this.ping<GroupResponse>(`group/${k}`, "GET", {
-				cli: "kirinnee"
-			});
+			return await this.ping<GroupResponse>(`group/${k}`, "GET", null, {cli: "kirinnee"});
 		} catch (e) {
 			return Promise.reject(e);
 		}
@@ -81,7 +78,6 @@ class ApiSdk {
 	async GroupExist(k: string): Promise<boolean> {
 		try {
 			await this.ping<void>(`group/${k}`, "HEAD");
-			console.log("ERROR: ", chalk.red("EROR"));
 			return true;
 		} catch (e) {
 			return false;
