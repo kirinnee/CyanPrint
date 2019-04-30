@@ -5,6 +5,14 @@
 
 Official Site: [CyanPrint.dev](https://cyanprint.dev)
 
+Source: [GitLab](https://gitlab.com/node-packages-kirin/cyanprint.git)
+
+NPM: [npm.js](https://www.npmjs.com/package/cyanprint)
+
+Yarn: [yarnpkg.com](https://yarnpkg.com/en/package/cyanprint)
+
+---
+
 CyanPrint is a scaffolding CLI for people to create templates or blueprints to scaffold commonly used 
 templates and reduce boilerplate code. 
 
@@ -15,8 +23,8 @@ together - CyanPrint takes care of that for you.
 The template file lives within the project itself, hence your template is still testable, even workable on 
 its own.
 
- CyanPrint is an slightly more robust version of CookieCutter in NPM with a fully working online repository for 
- ease of use.
+ >CyanPrint is an slightly more robust version of CookieCutter in NPM with a fully working online repository for 
+ >ease of use.
  
  # Features
  - Inquirer.js to get data
