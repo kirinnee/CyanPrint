@@ -13,8 +13,8 @@
     "cyan": "dist/cyan.js"
   },
   "repository": {
-    "type": "git",
-    "url": "https://github.com/kirinnee/CyanPrint.git"
+    "type":  "git",
+	  "url": "https://gitlab.com/node-packages-kirin/cyanprint.git"
   },
   "scripts": {
     "deploy": "node script deploy",
