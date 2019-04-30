@@ -1,0 +1,7 @@
+{
+	"name":   "var~cyan.docs.name~",
+	"key":    "var~package-name~",
+	"repo":   "var~git~",
+	"email":  "var~cyan.docs.email~",
+	"readme": "README.MD"
+}

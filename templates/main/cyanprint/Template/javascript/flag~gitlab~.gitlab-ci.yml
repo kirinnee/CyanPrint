@@ -1,0 +1,11 @@
+image: kirinnee/frontend-gitlab-runner:latest
+
+stages:
+  - deploy
+
+Deploy:
+  only:
+    - master
+  stage: deploy
+  script:
+    cyan push $CYANPRINT_TOKEN

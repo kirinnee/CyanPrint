@@ -1,8 +1,1 @@
-{
-	"name":      "Main",
-	"key":       "inbuilt_templates",
-	"email":     "kirinnee97@gmail.com",
-	"templates": {
-		"cyanprint": "CyanPrint Meta Template"
-	}
-}
+{"name":"Inbuilt Templates","key":"main","email":"kirinnee97@gmail.com","templates":{"cyanprint":"CyanPrint Meta Template"},"readme":"README.MD"}

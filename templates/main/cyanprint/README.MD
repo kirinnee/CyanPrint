@@ -9,7 +9,7 @@ A CyanPrint template to make CyanPrint templates
     ```
 3. Install this template
     ```shell
-    cyan i https://github.com/kirinnee/cyan.CyanPrint.git
+    cyan i cyanprint
     ```
 4. Create templates from via CyanPrint CLI
     ```shell

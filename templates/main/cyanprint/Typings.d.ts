@@ -26,6 +26,15 @@ interface IAutoMapper {
 interface IAutoInquire {
 	
 	/**
+	 * Ask a yes-no question, returns a boolean after user answers.
+	 * @param question the question to ask
+	 * @param yes The Yes answer, if not filled, will default to "Yes"
+	 * @param no the No answer, if not filled will default to "No"
+	 * @constructor
+	 */
+	InquirePredicate(question: string, yes?: string, no?: string): Promise<boolean>;
+	
+	/**
 	 * Choose to inquire which documents the user need
 	 * @param docList - the documents they need
 	 * @constructor
@@ -84,6 +93,7 @@ interface Cyan {
 	guid?: string[],
 	npm?: boolean | string;
 	docs?: Documentation;
+	comments?: string[] | string;
 }
 
 interface CyanSafe {
@@ -92,7 +102,8 @@ interface CyanSafe {
 	flags: object;
 	guid: string[],
 	npm: string | null;
-	docs: Documentation
+	docs: Documentation,
+	comments?: string[]
 }
 
 interface DocData {

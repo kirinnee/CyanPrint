@@ -17,7 +17,7 @@ var~cyan.docs.description~
 3. Install this template
 if~cyan.docs.git~
     ```bash
-    $ cyan i var~git~ [group]
+    $ cyan i var~package-name~ [group]
     ```
 end~cyan.docs.git~
 4. Create templates from via CyanPrint CLI

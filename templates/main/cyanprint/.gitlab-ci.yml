@@ -1,0 +1,11 @@
+stages:
+  - deploy
+
+Deploy:
+  stage: deploy
+  only:
+    - master
+  tags:
+    - cyanprint
+  script:
+    cyan push $CYANPRINT_TOKEN
