@@ -1,6 +1,6 @@
 {
   "name": "cyanprint",
-  "version": "0.13.3",
+  "version": "0.13.4",
   "description": "CyanPrint is a scaffolding CLI for people to create templates or blueprints to scaffold commonly used ",
   "main": "dist/cyan.js",
   "license": "MIT",
@@ -13,8 +13,8 @@
     "cyan": "dist/cyan.js"
   },
   "repository": {
-    "type":  "git",
-	  "url": "https://gitlab.com/node-packages-kirin/cyanprint.git"
+    "type": "git",
+    "url": "https://gitlab.com/node-packages-kirin/cyanprint.git"
   },
   "scripts": {
     "deploy": "node script deploy",
