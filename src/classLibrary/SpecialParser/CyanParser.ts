@@ -1,8 +1,13 @@
 import {Cyan, CyanSafe} from "../TargetUtil/CyanResponse";
+import {Core} from "@kirinnee/core";
 
 class CyanParser {
 	
-	constructor() {}
+	private readonly core;
+	
+	constructor(core: Core) {
+		this.core = core;
+	}
 	
 	Save(cyan: Cyan): CyanSafe {
 		let def: CyanSafe = {
@@ -14,8 +19,10 @@ class CyanParser {
 			globs: [],
 			variable: {},
 			flags: {},
-			guid: []
+			guid: [],
+			commands: [],
 		};
+		
 		if (cyan.docs != null) def.docs = cyan.docs;
 		if (cyan.npm != null) {
 			if (typeof cyan.npm === "string") {
@@ -42,6 +49,9 @@ class CyanParser {
 		}
 		if (cyan.guid != null) {
 			def.guid = cyan.guid;
+		}
+		if (cyan.commands != null) {
+			def.commands = this.core.WrapArray(cyan.commands);
 		}
 		return def;
 	}

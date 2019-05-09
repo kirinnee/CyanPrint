@@ -86,6 +86,12 @@ interface IAutoInquire {
 	InquireAsPredicate(flags: object): Promise<object>;
 }
 
+
+interface Command {
+	cmd: string[];
+	dir?: string;
+}
+
 interface Cyan {
 	globs: Glob[] | Glob,
 	variable?: object,
@@ -94,16 +100,18 @@ interface Cyan {
 	npm?: boolean | string;
 	docs?: Documentation;
 	comments?: string[] | string;
+	commands?: Command[] | Command;
 }
 
 interface CyanSafe {
-	globs: Glob[],
+	globs: Glob[];
 	variable: object;
 	flags: object;
-	guid: string[],
+	guid: string[];
 	npm: string | null;
-	docs: Documentation,
-	comments?: string[]
+	docs: Documentation;
+	commands: Command[];
+	comments?: string[];
 }
 
 interface DocData {
