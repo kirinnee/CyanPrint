@@ -136,6 +136,14 @@ export async function GenerateTemplate(dep: Dependency, templatePath: string, fo
 	let writer: FileWriter = new FileWriter(dep.util);
 	await writer.AWriteFile(files);
 	
+	// Run commands user have supplied
+	if (settings.commands.length != 0) {
+		for (const command of settings.commands) {
+			await ExecuteCommandSimple(command.cmd[0], command.cmd.Skip(1) || [], command.dir);
+		}
+	}
+	
+	// RUN NPM
 	if (settings.npm) {
 		console.log(chalk.cyanBright("Installing NPM modules"));
 		let reply = "";
@@ -177,7 +185,7 @@ export async function Interrogate(dep: Dependency, autoInquirer: IAutoInquire, t
 	let relConfigPath: string = path.relative(__dirname, configFile);
 	
 	let execute: Execute = new Execute(dep.core, folderName, __dirname, configFile, autoInquirer, dep.autoMapper);
-	let cyanSafe: CyanParser = new CyanParser();
+	let cyanSafe: CyanParser = new CyanParser(dep.core);
 	
 	//Get Template generating functions
 	let Template: (nameFolder: string, c: Chalk, inq: Inquirer, autoInquire: IAutoInquire, autoMap: IAutoMapper, execute: Execute) => Promise<Cyan>

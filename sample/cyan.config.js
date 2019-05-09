@@ -45,6 +45,11 @@ module.exports = async function (name, chalk, inquirer, autoInquirer, autoMap, e
 
     //console.log(name, chalk, inquirer, autoInquirer, autoMap, execute);
     return {
+        commands: [
+            {cmd: ["echo", "hey you!"]},
+            {cmd: ["echo", "hey you 2!"]},
+            {cmd: ["echo", "hey you 3!"]},
+        ],
         globs: {root: ".", pattern: "**/*.*", ignore: ""},
         npm: name,
         docs: {
