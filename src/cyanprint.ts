@@ -262,9 +262,14 @@ program
 	.action(async (secret) => {
 		if (secret == null) {
 			console.log(chalk.yellowBright("Usage:") + " push <secret>");
+			process.exit(1);
 		} else {
 			const r = await PushTemplate(dep, secret);
 			console.log(r);
+			const compare = chalk.greenBright("Successfully");
+			if (compare.Take(10) !== r.Take(10)) {
+				process.exit(1);
+			}
 		}
 	});
 
