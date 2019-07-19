@@ -1,5 +1,5 @@
 let spawn = require('child_process').spawn;
-let rimraf = require("rimraf"); 
+let rimraf = require("rimraf");
 let fs = require("fs");
 
 //command will be the first argument
@@ -8,12 +8,14 @@ let command = process.argv[2];
 let args = process.argv.slice(3).map(s => s.substr(2) === "--" ? s.substr(1) : s).filter(s => s !== '-w' && s !== '-watch');
 //This is a boolean as to whether --watch or -w been in the commands
 let watch = process.argv.map(s => s.substr(2) === "--" ? s.substr(1) : s).filter(s => s === '-w' || s === "-watch").length > 0;
+//Check --report is in the commands
+let report = process.argv.filter(s => s === "--report").length > 0;
 
-Execute(command, args, watch).then();
+Execute(command, args, watch, report).then();
 
 //The decision on what command to execute base on the arguments and whether watch exists
-async function Execute(command, args, watch) {
-    let coverage = args.filter(s => s === "--cover").length > 0; 
+async function Execute(command, args, watch, report) {
+    let coverage = args.filter(s => s === "--cover").length > 0;
     switch (command) {
         case "wp":
             let wp = `webpack --config ./config/webpack.${args[0]}.ts`;
@@ -27,14 +29,15 @@ async function Execute(command, args, watch) {
         case "test":
             let mocha = `mocha -r ts-node/register --recursive ./test/**/*.spec.ts`;
             if (watch) mocha += " --watch-extensions ts --watch ";
-            if (coverage) mocha = "nyc --nycrc-path ./config/.nycrc " + mocha; 
-            if (fs.existsSync("./.nyc_output")) rimraf.sync("./.nyc_output"); 
+            if (coverage) mocha = "nyc --nycrc-path ./config/.nycrc " + mocha;
+            if (fs.existsSync("./.nyc_output")) rimraf.sync("./.nyc_output");
+            if (report) mocha += " --reporter mocha-junit-reporter";
             await run(mocha);
             break;
         case "publish":
             await run(`npm run deploy`);
-            await run(`git add .`); 
-            await run(`git commit -m "Preparing for next ${args[0]} version`); 
+            await run(`git add .`);
+            await run(`git commit -m "Preparing for next ${args[0]} version`);
             await run(`npm version ${args[0]}`);
             await run(`npm publish`);
             break;
@@ -53,7 +56,7 @@ async function run(command) {
     let v = command;
 
     let env = process.env;
-    env.BROWSERSLIST_CONFIG= "./config/.browserslistrc";
+    env.BROWSERSLIST_CONFIG = "./config/.browserslistrc";
 
     return new Promise((resolve) => spawn(c, v,
         {
@@ -62,7 +65,7 @@ async function run(command) {
             env: env
         })
         .on("exit", (code, signal) => {
-            if (fs.existsSync("./.nyc_output")) rimraf.sync("./.nyc_output"); 
+            if (fs.existsSync("./.nyc_output")) rimraf.sync("./.nyc_output");
             if (code === 0) resolve();
             else {
                 console.log("ExternalError:", signal);
