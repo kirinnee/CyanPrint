@@ -17,7 +17,7 @@ class AutoInquire implements IAutoInquire {
 	}
 	
 	async InquirePredicate(question: string, yes: string = "Yes", no: string = "No"): Promise<boolean> {
-		let answer = await inquirer.prompt([{
+		let answer: { [s: string]: string } = await inquirer.prompt([{
 			type: "list",
 			choices: [yes, no],
 			name: "predicate",

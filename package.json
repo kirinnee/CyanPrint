@@ -57,7 +57,7 @@
     "@types/webpack": "^4.4.17",
     "chai": "^4.2.0",
     "mocha": "^5.2.0",
-    "nyc": "^13.0.1",
+    "nyc": "^14.1.1",
     "terser-webpack-plugin": "^1.1.0",
     "ts-loader": "^5.2.2",
     "ts-node": "^7.0.1",
