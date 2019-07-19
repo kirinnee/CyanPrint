@@ -22,8 +22,12 @@ Test:
   stage: test
   tags:
     - npm
-  script: yarn test
-
+  script: yarn test --report
+  artifacts:
+    paths:
+      - test-results.xml
+    reports:
+      junit: test-results.xml
 Build:
   stage: build
   tags:

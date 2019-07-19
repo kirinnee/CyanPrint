@@ -8,3 +8,4 @@ sample2/
 !.idea/*.xml
 .idea/workspace.xml
 .idea/vcs.xml
+test-results.xml
