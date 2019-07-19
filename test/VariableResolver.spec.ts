@@ -22,6 +22,12 @@ let flag: object = {
 	g: "Oreos"
 };
 
+describe("intentionally fail test", () => {
+    it("should fail", () => {
+        (1).should.equal(2);
+    });
+});
+
 describe("VariableResolver", () => {
 	describe("Count", () => {
 		it("should count the number of occurrences of each variable", () => {
