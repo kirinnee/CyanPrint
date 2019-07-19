@@ -4,6 +4,10 @@ stages:
   - build
   - publish
 
+include:
+  - template: SAST.gitlab-ci.yml
+  - template: Dependency-Scanning.gitlab-ci.yml
+
 cache:
   paths:
     - node_modules/
