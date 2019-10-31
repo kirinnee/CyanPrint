@@ -152,7 +152,7 @@ his/her **email**.
     Hello kirinee from none!
     Your email is kirinee97@gmail.com
     ```
-7. Congratulations, your made your first CyanPrint!
+7. Congratulations, your made your first CyanPrint! 🎉 🎉
 
 ### Inline Flags in Content
 Inline flags are boolean values where you can choose to remove files, folders or lines of code if 
@@ -200,7 +200,7 @@ Your email is var~email~
 Your ID is 024e7415-a88e-4a03-9b67-3d769aebf66f 
 ```
 
-Now change the flag to false
+Now change the flag to `false`
 
 `cyan.config.js`
 ```javascript
@@ -436,7 +436,7 @@ module.exports = async function(folderName, chalk, inquirer, autoInquirer, autoM
 
 Added the GUID we want to change (the one in `var~name.person~.txt`) to the `guid` field in the return object.
 
-**Also, remember to change the** `show.id` **to true, else we cannot see the newly generated id**
+**Also, remember to change the** `show.id` **to `true`, else we cannot see the newly generated id**
 
 Try it out:
 ```shell
@@ -575,7 +575,7 @@ This would run `npm i` after the template has been generated
 ## AutoInquiring Variable Inputs
  
  ### Introduction
- As the previous example has shown, it is possible replace file, folder and content with small
+ As the previous example has shown, it is possible to replace file, folder and content with small
  snippets of code inside. However, to make this viable, we should ask the user on what they want 
  to replace the variable with. 
  
