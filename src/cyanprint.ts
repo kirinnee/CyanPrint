@@ -45,7 +45,7 @@ const objex: Objex = new ObjectX(core);
 objex.ExtendPrimitives();
 
 const u: Utility = new Utility(core);
-const api: ApiSdk = new ApiSdk(PRODUCTION ? "https://cyanprint.icu" : "https://cyanprint.icu");
+const api: ApiSdk = new ApiSdk(PRODUCTION ? "https://api.cyanprint.dev" : "https://api.cyanprint.dev");
 const autoMapper: IAutoMapper = new AutoMapper(u);
 const autoInquirer: IAutoInquire = new AutoInquire(u, autoMapper);
 
