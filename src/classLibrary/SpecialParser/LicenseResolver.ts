@@ -31,7 +31,9 @@ class LicenseResolver {
 			sourceAbsolutePath: "",
 			destinationAbsolutePath: targetPath,
 			relativePath: "",
-			content: this.GetLicense(license.type)
+			content: this.GetLicense(license.type),
+			binary: false,
+			buffer: Buffer.from(''),
 		};
 		let map: Map<string, string> = new Map([
 			["year", license.year],

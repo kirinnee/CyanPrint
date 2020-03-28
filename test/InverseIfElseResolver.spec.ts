@@ -38,7 +38,9 @@ describe("InverseIfElseResolver", () => {
 					'sample line1 if!~a.b.c~\n' +
 					'sample line2\n' +
 					'end!~a.b.c~ sample line3\n' +
-					'sample line4'
+					'sample line4',
+				binary: false,
+				buffer: Buffer.from(''),
 			};
 			let path2 = "b/b/b/b.b";
 			let file2: IFile = {
@@ -65,7 +67,9 @@ describe("InverseIfElseResolver", () => {
 					'sample line17\n' +
 					'sample line18\n' +
 					'sample end!~e.f~ line19\n' +
-					'end!~g~ line20\n'
+					'end!~g~ line20\n',
+				binary: false,
+				buffer: Buffer.from(''),
 			};
 			let path3 = "c/c/c/c.c";
 			let file3: IFile = {
@@ -92,7 +96,9 @@ describe("InverseIfElseResolver", () => {
 					'sample line17\n' +
 					'sample line18\n' +
 					'sample end!~e.h~ line19\n' +
-					'end!~e.f~ line20\n'
+					'end!~e.f~ line20\n',
+				binary: false,
+				buffer: Buffer.from(''),
 			};
 			let dir: IDirectory = {
 				sourceAbsolutePath: "b/c/d",
@@ -222,7 +228,9 @@ line6`;
 					'sample line1 if!~a.b.c~\n' +
 					'sample line2\n' +
 					'end!~a.b.c~ sample line3\n' +
-					'sample line4'
+					'sample line4',
+				binary: false,
+				buffer: Buffer.from(''),
 			};
 			let path2 = "b/b/b/b.b";
 			let file2: IFile = {
@@ -249,7 +257,9 @@ line6`;
 					'sample line17\n' +
 					'sample line18\n' +
 					'sample end!~e.f~ line19\n' +
-					'end!~g~ line20\n'
+					'end!~g~ line20\n',
+				binary: false,
+				buffer: Buffer.from(''),
 			};
 			let path3 = "c/c/c/c.c";
 			let file3: IFile = {
@@ -276,7 +286,9 @@ line6`;
 					'sample line17\n' +
 					'sample line18\n' +
 					'sample end!~e.h~ line19\n' +
-					'end!~e.f~ line20\n'
+					'end!~e.f~ line20\n',
+				binary: false,
+				buffer: Buffer.from(''),
 			};
 			let dir: IDirectory = {
 				sourceAbsolutePath: "b/c/d",
@@ -292,7 +304,9 @@ line6`;
 				relativePath: path1,
 				content:
 					'sample line2\n' +
-					'sample line4'
+					'sample line4',
+				binary: false,
+				buffer: Buffer.from(''),
 			};
 			let expectedFile2: IFile = {
 				sourceAbsolutePath: path2,
@@ -303,7 +317,9 @@ line6`;
 					'sample line9\n' +
 					'sample line10\n' +
 					'sample line12\n' +
-					'sample line13\n'
+					'sample line13\n',
+				binary: false,
+				buffer: Buffer.from(''),
 			};
 			let expectedFile3: IFile = {
 				sourceAbsolutePath: path3,
@@ -313,7 +329,9 @@ line6`;
 					'sample line2\n' +
 					'sample line4\n' +
 					'sample line9\n' +
-					'sample line10\n'
+					'sample line10\n',
+				binary: false,
+				buffer: Buffer.from(''),
 			};
 			let expectedDir: IDirectory = {
 				sourceAbsolutePath: "b/c/d",

@@ -18,7 +18,7 @@ class VariableResolver implements ParsingStrategy {
 			flags.Each((s: string) => {
 				let key = this.ModifyFlagKey(s);
 				let num: number = ignoreFile ? 0 : f.destinationAbsolutePath.Count(key);
-				if (f["content"] != null) {
+				if (f["content"] != null && !f["binary"]) {
 					let file: IFile = f as IFile;
 					num += file.content.Count(key);
 				}
@@ -47,7 +47,7 @@ class VariableResolver implements ParsingStrategy {
 	
 	ResolveFileContent(map: Map<string, string>, f: FileSystemInstance): FileSystemInstance {
 		map = map.MapKey(this.ModifyFlagKey);
-		if (f["content"] != null) {
+		if (f["content"] != null && !f["binary"]) {
 			let file: IFile = f as IFile;
 			map.Each((k: string, v: string) => file.content = file.content.ReplaceAll(k, v));
 			return file;
@@ -64,7 +64,7 @@ class VariableResolver implements ParsingStrategy {
 	CountPossibleUnaccountedFlags(files: FileSystemInstance[]): string[] {
 		let variable = /var~[^~]*~/g;
 		return files
-			.Where(f => f["content"] != null)
+			.Where(f => f["content"] != null && !f["binary"])
 			.Map(f =>
 				(f as IFile).content
 					.LineBreak()

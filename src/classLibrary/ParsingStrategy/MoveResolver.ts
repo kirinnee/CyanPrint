@@ -19,7 +19,7 @@ class MoveResolver implements ParsingStrategy {
 		if (flag["move"] != null) {
 			let map = this.util.FlattenFlagObject(flag["move"]!);
 			files.Each((f: FileSystemInstance) => {
-				if (f["content"] != null) {
+				if (f["content"] != null && !f["binary"]) {
 					let file: IFile = f as IFile;
 					if (this.IsPackageDotJson(file)) {
 						let jsonObject: object = RJSON.parse(file.content);
@@ -63,17 +63,17 @@ class MoveResolver implements ParsingStrategy {
 	}
 	
 	ResolveJsonFile(map: Map<string, boolean>, f: FileSystemInstance): FileSystemInstance {
-		if (f["content"] == null) return f;
+		if (f["content"] == null && !f["binary"]) return f;
 		let file: IFile = f as IFile;
 		if (!this.IsPackageDotJson(file)) return file;
-		
+
 		let jsonObject: object = RJSON.parse(file.content);
-		
+
 		map.Where((k: string, v: boolean) => v)
-		   .Keys()
-		   .Each((k: string) => {
-			   if (jsonObject["devDependencies"] != null && jsonObject["devDependencies"][k] != null) {
-				   if (jsonObject["dependencies"] == null) jsonObject["dependencies"] = {};
+			.Keys()
+			.Each((k: string) => {
+				if (jsonObject["devDependencies"] != null && jsonObject["devDependencies"][k] != null) {
+					if (jsonObject["dependencies"] == null) jsonObject["dependencies"] = {};
 				   jsonObject["dependencies"][k] = jsonObject["devDependencies"][k];
 				   delete jsonObject["devDependencies"][k];
 			   } else if (jsonObject["dependencies"] != null && jsonObject["dependencies"][k] != null) {

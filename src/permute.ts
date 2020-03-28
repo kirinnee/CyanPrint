@@ -38,28 +38,28 @@ export async function Permute(dep: Dependency, git: boolean, copyNode: boolean, 
 	try {
 		let fakeInquire: IAutoInquire = new FakeInquirer(dep.autoInquirer);
 		let cyanSafe: { key: string, val: CyanSafe }[] = await Spy(dep, f, to);
-		
+
 		console.info(chalk.greenBright("Completed getting all permutations!"));
 		let folders: string[] = cyanSafe.Map(c => path.join(c.key, c.val.npm || ""));
-		
+
 		cyanSafe.Each(c => c.val.docs.usage.git = false).Each(c => delete c.val.npm);
-		
+
 		let logs: string[] = await Concurrent(cyanSafe, (c: { key: string, val: CyanSafe }) => StealLogs(dep, f, c, fakeInquire, copyNode));
 		let JSONLog: string = path.resolve(process.cwd(), to, "logs.json");
 		let dest: string = path.resolve(process.cwd(), to, "logs.txt");
-		dep.util.SafeWriteFile(dest, logs.join("\n\n"));
+		dep.util.SafeWriteFile(dest, logs.join("\n\n"), false);
 		let obj: Map<string, boolean[]>[] = cyanSafe
 			.Map(e => e.val.flags)
 			.Each(e => delete e["cyan.docs"])
 			.Map(e => e.AsMap() as Map<string, boolean>)
 			.Map((e: Map<string, boolean>) => e.MapValue(v => dep.core.WrapArray<boolean>(v) as boolean[]));
-		
+
 		dep.util.SafeWriteFile(JSONLog, JSON.stringify(
 			obj.Reduce((a, b) => {
 				let values: boolean[][] = a.Values().Map((e, i) => e.concat(b.Values()[i]));
 				return a.Keys().Merge(values);
 			}).AsObject()
-		));
+		), false);
 		let hasYarn = await ExecuteCommandSimple("yarn", ["-v"], "", true);
 		if (hasYarn) {
 			let s: boolean[] = await Concurrent(folders, (e => ExecuteCommandSimple("yarn", ["--prefer-offline"], e, true)));
@@ -102,16 +102,16 @@ async function StealLogs(dep: Dependency, templatePath: string, settings: { key:
 			"[96m"
 		]);
 		logs += "\n";
-		
+
 	};
-	
+
 	let dest: string = settings.key;
 	await GenerateTemplate(dep, templatePath, dest, settings.val, copyNode);
 	logs += "\n==== end ====\n\n";
 	let logFile: string = path.resolve(process.cwd(), dest, "cyanprint_logs.txt");
 	let cyanDiagram: string = path.resolve(process.cwd(), dest, "cyanprint_tree.json");
-	dep.util.SafeWriteFile(logFile, logs);
-	dep.util.SafeWriteFile(cyanDiagram, JSON.stringify(settings.val, null, 4));
+	dep.util.SafeWriteFile(logFile, logs, false);
+	dep.util.SafeWriteFile(cyanDiagram, JSON.stringify(settings.val, null, 4), false);
 	console.log = logger;
 	return logs;
 }

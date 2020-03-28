@@ -137,7 +137,9 @@ eget finibus venenatis.`;
 				sourceAbsolutePath: "flag~remove.one~one/one",
 				destinationAbsolutePath: "flag~remove.one~one/one",
 				relativePath: "flag~remove.one~one/one",
-				content: "flag~remove.one~ flag~remove.two~ asd\nflag~remove.three.one~"
+				content: "flag~remove.one~ flag~remove.two~ asd\nflag~remove.three.one~",
+				binary: false,
+				buffer: Buffer.from(''),
 			};
 			let dir: IDirectory = {
 				sourceAbsolutePath: "flag~remove.three.two~one/one",
