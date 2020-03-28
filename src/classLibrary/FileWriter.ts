@@ -35,7 +35,6 @@ class FileWriter {
             if (f["content"] != null) {
                 let file: IFile = f as IFile;
                 const content = file.binary ? file.buffer : file.content;
-                console.log(content);
                 promises.push(this.util.ASafeWriteFile(file.destinationAbsolutePath, content, file.binary, function () {
                     counter++;
                     bar.update(counter);
