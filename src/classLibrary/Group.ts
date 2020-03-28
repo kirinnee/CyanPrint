@@ -42,18 +42,18 @@ export class Group {
 			};
 			const groupDataPath: string = path.resolve(this.templateRoot, key, "cyan.group.json");
 			const string: string = JSON.stringify(groupData);
-			this.util.SafeWriteFile(groupDataPath, string);
-			
+			this.util.SafeWriteFile(groupDataPath, string, false);
+
 			//Update top level mapping
 			const content: any = JSON.parse(fs.readFileSync(this.TopLevelConfig, 'utf8'));
 			content[key] = name;
 			const out: string = JSON.stringify(content);
-			this.util.SafeWriteFile(this.TopLevelConfig, out);
-			
+			this.util.SafeWriteFile(this.TopLevelConfig, out, false);
+
 			//Create Read Me file
 			const targetPath = path.resolve(this.templateRoot, key, readme);
-			this.util.SafeWriteFile(targetPath, readMeContent);
-			
+			this.util.SafeWriteFile(targetPath, readMeContent, false);
+
 			//Reply to console on progress
 			return true;
 		}
@@ -61,17 +61,17 @@ export class Group {
 	
 	Delete(key: string): boolean {
 		if (this.Exist(key)) {
-			
+
 			// Nuke group
 			let full: string = path.resolve(this.templateRoot, key);
 			rimraf.sync(full);
-			
+
 			//Remove entry from top-level
 			const content: any = JSON.parse(fs.readFileSync(this.TopLevelConfig, 'utf8'));
 			content[key] = null;
 			delete content[key];
 			const out: string = JSON.stringify(content);
-			this.util.SafeWriteFile(this.TopLevelConfig, out);
+			this.util.SafeWriteFile(this.TopLevelConfig, out, false);
 			return true;
 		} else {
 			return false;
@@ -107,7 +107,7 @@ export class Group {
 		const data: GroupData = JSON.parse(fs.readFileSync(full, 'utf8'));
 		data.templates[templateKey] = templateName;
 		const newData: string = JSON.stringify(data);
-		this.util.SafeWriteFile(full, newData);
+		this.util.SafeWriteFile(full, newData, false);
 	}
 	
 	RemoveTemplate(key: string, templateKey: string) {
@@ -116,7 +116,7 @@ export class Group {
 		(data.templates[templateKey] as any) = null;
 		delete data.templates[templateKey];
 		const newData: string = JSON.stringify(data);
-		this.util.SafeWriteFile(full, newData);
+		this.util.SafeWriteFile(full, newData, false);
 	}
 	
 	

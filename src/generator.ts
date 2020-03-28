@@ -34,6 +34,7 @@ import {CyanParser} from "./classLibrary/SpecialParser/CyanParser";
 import inquirer, {Inquirer} from "inquirer";
 import {spawn} from "child_process";
 import {Dependency} from "./Depedency";
+import {GuidGenerator} from "./classLibrary/GuidGenerator";
 
 
 export async function GenerateTemplate(dep: Dependency, templatePath: string, folderName: string, settings: CyanSafe, copyNode: boolean): Promise<string> {
@@ -60,9 +61,10 @@ export async function GenerateTemplate(dep: Dependency, templatePath: string, fo
     let globFactory: GlobFactory = new GlobFactory(dep.util, fileFactory);
 
 
+
     //Create all relevant parsing strategy
     let strategies: ParsingStrategy[] = [
-        new GuidResolver(dep.core),
+        new GuidResolver(dep.core, new GuidGenerator(dep.core)),
         new IfElseResolver(dep.util),
         new InverseIfElseResolver(dep.util),
         new InlineFlagResolver(dep.util, settings.comments),

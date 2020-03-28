@@ -93,7 +93,9 @@ class Parser {
 	}
 	
 	CountPossibleRemains(files: FileSystemInstance[]): void {
-		let unaccounted: string[] = this.strategies.Map((s: ParsingStrategy) => s.CountPossibleUnaccountedFlags(files)).Flatten();
+		let unaccounted: string[] = this.strategies
+			.Map((s: ParsingStrategy) => s.CountPossibleUnaccountedFlags(files))
+			.Flatten();
 		if (unaccounted.length > 0) {
 			console.log(chalk.redBright("WARNING: LIST OF POSSIBLE UNUSED VARIABLES"));
 			unaccounted.TrimAll().Each((s: string) => console.log("\t" + chalk.red(s)));

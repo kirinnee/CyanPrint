@@ -16,8 +16,8 @@ class IfElseResolver implements ParsingStrategy {
 	Count(wFlag: object, files: FileSystemInstance[], map: Map<string, number>, ignoreFile: boolean): Map<string, number> {
 		if (!ignoreFile) return map;
 		let real: Map<string, boolean> = this.util.FlattenFlagObject(wFlag);
-		
-		files.Where((f: FileSystemInstance) => f["content"] != null)
+
+		files.Where((f: FileSystemInstance) => f["content"] != null && !f["binary"])
 			.Map((f: FileSystemInstance) => f as IFile)
 			.Map((f: IFile) => f.content)
 			.Each((s: string) => {
@@ -44,17 +44,17 @@ class IfElseResolver implements ParsingStrategy {
 	}
 	
 	ResolveContent(map: Map<string, boolean>, file: FileSystemInstance): FileSystemInstance {
-		if (file["content"] != null) {
+		if (file["content"] != null && !file["binary"]) {
 			let f: IFile = file as IFile;
 			let content = f.content;
 			map.Each((k: string, v: boolean) => {
-					let startIndex: number[] = content
-						.LineBreak()
-						.Map((s: string, i: number) => [s, i] as [string, number])
-						.Where((n: [string, number]) => n[0].includes(this.ModifyIfKeys(k)))
-						.Map((n: [string, number]) => n[1]);
-					let endIndex: number[] = content
-						.LineBreak()
+				let startIndex: number[] = content
+					.LineBreak()
+					.Map((s: string, i: number) => [s, i] as [string, number])
+					.Where((n: [string, number]) => n[0].includes(this.ModifyIfKeys(k)))
+					.Map((n: [string, number]) => n[1]);
+				let endIndex: number[] = content
+					.LineBreak()
 						.Map((s: string, i: number) => [s, i] as [string, number])
 						.Where((n: [string, number]) => n[0].includes(this.ModifyEndKey(k)))
 						.Map(((n: [string, number]) => n[1]));
@@ -92,7 +92,7 @@ class IfElseResolver implements ParsingStrategy {
 		let ifRegex = /if~[^~]*~/g;
 		let endRegex = /end~[^~]*~/g;
 		return files
-			.Where(f => f["content"] != null)
+			.Where(f => f["content"] != null && !f["binary"])
 			.Map(f =>
 				(f as IFile).content
 					.LineBreak()
