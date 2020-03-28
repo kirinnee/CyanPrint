@@ -71,14 +71,18 @@ describe("PackageResolver", () => {
 				destinationAbsolutePath: "root/package.json",
 				sourceAbsolutePath: "root/package.json",
 				relativePath: "root/package.json",
-				content: testSubj
+				content: testSubj,
+				binary: false,
+				buffer: Buffer.from(''),
 			};
 			
 			let expectedFile: IFile = {
 				destinationAbsolutePath: "root/package.json",
 				sourceAbsolutePath: "root/package.json",
 				relativePath: "root/package.json",
-				content: expectedContent
+				content: expectedContent,
+				binary: false,
+				buffer: Buffer.from(''),
 			};
 			
 			packageParser.ResolveJsonFile(map, testFile).should.deep.equal(expectedFile);
@@ -123,13 +127,17 @@ describe("PackageResolver", () => {
 				destinationAbsolutePath: "root/package.json",
 				sourceAbsolutePath: "root/package.json",
 				relativePath: "root/package.json",
-				content: testSubj
+				content: testSubj,
+				binary: false,
+				buffer: Buffer.from(''),
 			};
 			let file2: IFile = {
 				destinationAbsolutePath: "root/main.js",
 				sourceAbsolutePath: "root/main.js",
 				relativePath: "root/main.js",
-				content: "rofl"
+				content: "rofl",
+				binary: false,
+				buffer: Buffer.from(''),
 			};
 			let dir: IDirectory = {
 				destinationAbsolutePath: "root/src",
@@ -141,13 +149,17 @@ describe("PackageResolver", () => {
 				destinationAbsolutePath: "root/package.json",
 				sourceAbsolutePath: "root/package.json",
 				relativePath: "root/package.json",
-				content: expectedContent
+				content: expectedContent,
+				binary: false,
+				buffer: Buffer.from(''),
 			};
 			let expectedFile2: IFile = {
 				destinationAbsolutePath: "root/main.js",
 				sourceAbsolutePath: "root/main.js",
 				relativePath: "root/main.js",
-				content: "rofl"
+				content: "rofl",
+				binary: false,
+				buffer: Buffer.from(''),
 			};
 			let expectedDir: IDirectory = {
 				destinationAbsolutePath: "root/src",
@@ -189,13 +201,17 @@ describe("PackageResolver", () => {
 				destinationAbsolutePath: "root/package.json",
 				sourceAbsolutePath: "root/package.json",
 				relativePath: "root/package.json",
-				content: testSubj
+				content: testSubj,
+				binary: false,
+				buffer: Buffer.from(''),
 			};
 			let file2: IFile = {
 				destinationAbsolutePath: "root/main.js",
 				sourceAbsolutePath: "root/main.js",
 				relativePath: "root/main.js",
-				content: "rofl"
+				content: "rofl",
+				binary: false,
+				buffer: Buffer.from(''),
 			};
 			let dir: IDirectory = {
 				destinationAbsolutePath: "root/src",

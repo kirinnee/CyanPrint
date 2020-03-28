@@ -30,21 +30,27 @@ describe("VariableResolver", () => {
 				sourceAbsolutePath: path1,
 				destinationAbsolutePath: path1,
 				relativePath: path1,
-				content: "line1\nvar~b.c~ are red\nvar~b.c~ are blue"
+				content: "line1\nvar~b.c~ are red\nvar~b.c~ are blue",
+				binary: false,
+				buffer: Buffer.from(''),
 			};
 			let path2: string = "root/var~b.c~/var~g~";
 			let file2: IFile = {
 				sourceAbsolutePath: path2,
 				destinationAbsolutePath: path2,
 				relativePath: path2,
-				content: "line2\nvar~b.d.e~ help me!\nvar~b.c~ are blue\nvar~g~ are black!!"
+				content: "line2\nvar~b.d.e~ help me!\nvar~b.c~ are blue\nvar~g~ are black!!",
+				binary: false,
+				buffer: Buffer.from(''),
 			};
 			let path3: string = "root/var~b.d.e~/var~g~";
 			let file3: IFile = {
 				sourceAbsolutePath: path3,
 				destinationAbsolutePath: path3,
 				relativePath: path3,
-				content: "line2\nvar~b.d.f~ are red\nvar~b.c~ are blue\nvar~g~ are black!!"
+				content: "line2\nvar~b.d.f~ are red\nvar~b.c~ are blue\nvar~g~ are black!!",
+				binary: false,
+				buffer: Buffer.from(''),
 			};
 			let path4: string = "root/var~a~";
 			let dir1: IDirectory = {
@@ -101,21 +107,27 @@ describe("VariableResolver", () => {
 				sourceAbsolutePath: path1,
 				destinationAbsolutePath: path1,
 				relativePath: path1,
-				content: "line1\nvar~b.c~ are red\nvar~b.c~ are blue"
+				content: "line1\nvar~b.c~ are red\nvar~b.c~ are blue",
+				binary: false,
+				buffer: Buffer.from(''),
 			};
 			let path2: string = "root/var~b.c~/var~g~";
 			let file2: IFile = {
 				sourceAbsolutePath: path2,
 				destinationAbsolutePath: path2,
 				relativePath: path2,
-				content: "line2\nvar~b.d.e~ help me!\nvar~b.c~ are blue\nvar~g~ are black!!"
+				content: "line2\nvar~b.d.e~ help me!\nvar~b.c~ are blue\nvar~g~ are black!!",
+				binary: false,
+				buffer: Buffer.from(''),
 			};
 			let path3: string = "root/var~b.d.e~/var~g~";
 			let file3: IFile = {
 				sourceAbsolutePath: path3,
 				destinationAbsolutePath: path3,
 				relativePath: path3,
-				content: "line2\nvar~b.d.f~ are red\nvar~b.c~ are blue\nvar~g~ are black!!"
+				content: "line2\nvar~b.d.f~ are red\nvar~b.c~ are blue\nvar~g~ are black!!",
+				binary: false,
+				buffer: Buffer.from(''),
 			};
 			let path4: string = "root/var~a~";
 			let dir1: IDirectory = {
@@ -134,19 +146,25 @@ describe("VariableResolver", () => {
 				sourceAbsolutePath: "root/var~a~/a.a",
 				destinationAbsolutePath: "root/Roses/a.a",
 				relativePath: "root/var~a~/a.a",
-				content: "line1\nvar~b.c~ are red\nvar~b.c~ are blue"
+				content: "line1\nvar~b.c~ are red\nvar~b.c~ are blue",
+				binary: false,
+				buffer: Buffer.from(''),
 			};
 			let file2Expected: IFile = {
 				sourceAbsolutePath: "root/var~b.c~/var~g~",
 				destinationAbsolutePath: "root/Violets/Oreos",
 				relativePath: "root/var~b.c~/var~g~",
-				content: "line2\nvar~b.d.e~ help me!\nvar~b.c~ are blue\nvar~g~ are black!!"
+				content: "line2\nvar~b.d.e~ help me!\nvar~b.c~ are blue\nvar~g~ are black!!",
+				binary: false,
+				buffer: Buffer.from(''),
 			};
 			let file3Expected: IFile = {
 				sourceAbsolutePath: "root/var~b.d.e~/var~g~",
 				destinationAbsolutePath: "root/please/Oreos",
 				relativePath: "root/var~b.d.e~/var~g~",
-				content: "line2\nvar~b.d.f~ are red\nvar~b.c~ are blue\nvar~g~ are black!!"
+				content: "line2\nvar~b.d.f~ are red\nvar~b.c~ are blue\nvar~g~ are black!!",
+				binary: false,
+				buffer: Buffer.from(''),
 			};
 			let dir1Expected: IDirectory = {
 				sourceAbsolutePath: "root/var~a~",
@@ -172,21 +190,27 @@ describe("VariableResolver", () => {
 				sourceAbsolutePath: path1,
 				destinationAbsolutePath: path1,
 				relativePath: path1,
-				content: "line1\nvar~b.c~ are red\nvar~b.c~ are blue"
+				content: "line1\nvar~b.c~ are red\nvar~b.c~ are blue",
+				binary: false,
+				buffer: Buffer.from(''),
 			};
 			let path2: string = "root/var~b.c~/var~g~";
 			let file2: IFile = {
 				sourceAbsolutePath: path2,
 				destinationAbsolutePath: path2,
 				relativePath: path2,
-				content: "line2\nvar~b.d.e~ help me!\nvar~b.c~ are blue\nvar~g~ are black!!"
+				content: "line2\nvar~b.d.e~ help me!\nvar~b.c~ are blue\nvar~g~ are black!!",
+				binary: false,
+				buffer: Buffer.from(''),
 			};
 			let path3: string = "root/var~b.d.e~/var~g~";
 			let file3: IFile = {
 				sourceAbsolutePath: path3,
 				destinationAbsolutePath: path3,
 				relativePath: path3,
-				content: "line2\nvar~b.d.f~ are red\nvar~b.c~ are blue\nvar~g~ are black!!"
+				content: "line2\nvar~b.d.f~ are red\nvar~b.c~ are blue\nvar~g~ are black!!",
+				binary: false,
+				buffer: Buffer.from(''),
 			};
 			let path4: string = "root/var~a~";
 			let dir1: IDirectory = {
@@ -205,19 +229,25 @@ describe("VariableResolver", () => {
 				sourceAbsolutePath: "root/var~a~/a.a",
 				destinationAbsolutePath: "root/var~a~/a.a",
 				relativePath: "root/var~a~/a.a",
-				content: "line1\nViolets are red\nViolets are blue"
+				content: "line1\nViolets are red\nViolets are blue",
+				binary: false,
+				buffer: Buffer.from(''),
 			};
 			let file2Expected: IFile = {
 				sourceAbsolutePath: "root/var~b.c~/var~g~",
 				destinationAbsolutePath: "root/var~b.c~/var~g~",
 				relativePath: "root/var~b.c~/var~g~",
-				content: "line2\nplease help me!\nViolets are blue\nOreos are black!!"
+				content: "line2\nplease help me!\nViolets are blue\nOreos are black!!",
+				binary: false,
+				buffer: Buffer.from(''),
 			};
 			let file3Expected: IFile = {
 				sourceAbsolutePath: "root/var~b.d.e~/var~g~",
 				destinationAbsolutePath: "root/var~b.d.e~/var~g~",
 				relativePath: "root/var~b.d.e~/var~g~",
-				content: "line2\nApples are red\nViolets are blue\nOreos are black!!"
+				content: "line2\nApples are red\nViolets are blue\nOreos are black!!",
+				binary: false,
+				buffer: Buffer.from(''),
 			};
 			let dir1Expected: IDirectory = {
 				sourceAbsolutePath: "root/var~a~",
@@ -254,14 +284,18 @@ describe("VariableResolver", () => {
 				destinationAbsolutePath: "root/a",
 				sourceAbsolutePath: "root/b",
 				relativePath: "./c",
-				content: "Emily likes var~flower1~\nJune likes var~flower2~\nLily likes var~flower3~"
+				content: "Emily likes var~flower1~\nJune likes var~flower2~\nLily likes var~flower3~",
+				binary: false,
+				buffer: Buffer.from(''),
 			};
 			
 			let expected: IFile = {
 				destinationAbsolutePath: "root/a",
 				sourceAbsolutePath: "root/b",
 				relativePath: "./c",
-				content: "Emily likes roses\nJune likes violets\nLily likes lily"
+				content: "Emily likes roses\nJune likes violets\nLily likes lily",
+				binary: false,
+				buffer: Buffer.from(''),
 			};
 			
 			variableParser.ResolveFileContent(map, f).should.deep.equal(expected);

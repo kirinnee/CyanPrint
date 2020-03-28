@@ -111,7 +111,9 @@ available at [http://contributor-covenant.org/version/1/4][version]
 			content: contribute,
 			destinationAbsolutePath: to,
 			sourceAbsolutePath: "",
-			relativePath: ""
+			relativePath: "",
+			binary: false,
+			buffer: Buffer.from(''),
 		};
 		return file as FileSystemInstance;
 	}

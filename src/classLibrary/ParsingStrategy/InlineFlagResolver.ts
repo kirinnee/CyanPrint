@@ -71,7 +71,7 @@ export class InlineFlagResolver implements ParsingStrategy {
 	};
 	
 	ResolveFileContent(map: Map<string, boolean>, f: FileSystemInstance): FileSystemInstance {
-		if (f['content'] != null) {
+		if (f['content'] != null && !f["binary"]) {
 			let file: IFile = f as IFile;
 			file.content = file.content
 				.LineBreak()
@@ -92,8 +92,8 @@ export class InlineFlagResolver implements ParsingStrategy {
 			keys.Each((s: string) => {
 				let num = ignoreFile ? 0 : f.sourceAbsolutePath.Count(s);
 				let key = s.Omit(1).Skip(5);
-				
-				if (f["content"] != null) {
+
+				if (f["content"] != null && !f["binary"]) {
 					let file: IFile = f as IFile;
 					num += file.content.Count(s);
 				}
@@ -110,7 +110,7 @@ export class InlineFlagResolver implements ParsingStrategy {
 	CountPossibleUnaccountedFlags(files: FileSystemInstance[]): string[] {
 		let flag = /flag~[^~]*~/g;
 		return files
-			.Where(f => f["content"] != null)
+			.Where(f => f["content"] != null && !f["binary"])
 			.Map(f =>
 				(f as IFile).content.LineBreak()
 					.Map(s => s.Match(flag))
@@ -119,7 +119,9 @@ export class InlineFlagResolver implements ParsingStrategy {
 			)
 			.Flatten()
 			.concat(
-				files.Map((f: FileSystemInstance) => f.destinationAbsolutePath.Match(flag).Map((s: string) => `${s}:${f.relativePath}`)).Flatten()
+				files.Map((f: FileSystemInstance) => f.destinationAbsolutePath.Match(flag)
+					.Map((s: string) => `${s}:${f.relativePath}`))
+					.Flatten()
 			) as string[];
 	}
 	

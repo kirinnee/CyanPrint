@@ -50,7 +50,9 @@ SOFTWARE.`;
 			sourceAbsolutePath: "",
 			destinationAbsolutePath: "target/root",
 			relativePath: "",
-			content: expectedContent
+			content: expectedContent,
+			binary: false,
+			buffer: Buffer.from(''),
 		};
 		licenseParser.ResolveLicense(testSubj, "target/root").should.deep.equal(expectedFile);
 	});

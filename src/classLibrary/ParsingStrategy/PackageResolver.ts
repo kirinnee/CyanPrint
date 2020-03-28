@@ -19,7 +19,7 @@ class PackageResolver implements ParsingStrategy {
 		if (flag["packages"] != null) {
 			let map = this.util.FlattenFlagObject(flag["packages"]!);
 			files.Each((f: FileSystemInstance) => {
-				if (f["content"] != null) {
+				if (f["content"] != null && !f["binary"]) {
 					let file: IFile = f as IFile;
 					//console.log("is package?",this.IsPackageDotJson(file), file.sourceAbsolutePath);
 					if (this.IsPackageDotJson(file)) {
@@ -52,11 +52,11 @@ class PackageResolver implements ParsingStrategy {
 	}
 	
 	ResolveJsonFile(map: Map<string, boolean>, f: FileSystemInstance): FileSystemInstance {
-		if (f["content"] != null) {
+		if (f["content"] != null && !f["binary"]) {
 			let file: IFile = f as IFile;
 			if (this.IsPackageDotJson(file)) {
 				let jsonObject: object = RJSON.parse(file.content);
-				
+
 				map.Each((k: string, v: boolean) => {
 					if (jsonObject["devDependencies"] != null) {
 						if (jsonObject["devDependencies"][k] != null && !v) {
