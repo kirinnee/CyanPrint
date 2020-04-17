@@ -32,11 +32,17 @@ class CyanParser {
             }
         }
         if (cyan.globs != null) {
-            if (Array.isArray(cyan.globs)) {
-                def.globs = cyan.globs;
-            } else {
-                def.globs = [cyan.globs];
+            if (!Array.isArray(cyan.globs)) {
+                cyan.globs = [cyan.globs];
             }
+            def.globs = cyan.globs
+                .Map(({root, pattern, ignore}) =>
+                    Array.isArray(pattern) ?
+                        pattern.Map(x => {
+                            return {root, ignore, pattern: x}
+                        }) :
+                        [{root, pattern, ignore}]
+                ).Flatten();
         }
         if (cyan.variable != null) def.variable = cyan.variable;
         if (cyan.flags != null) def.flags = cyan.flags;

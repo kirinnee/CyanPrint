@@ -85,7 +85,7 @@ export async function GenerateTemplate(dep: Dependency, templatePath: string, fo
 
 
     //Obtain all globs
-    let files: FileSystemInstance[] = settings.globs.Map((g: Glob) => globFactory.GenerateFiles(g.root, g.pattern, g.ignore)).Flatten();
+    let files: FileSystemInstance[] = settings.globs.Map((g: Glob) => globFactory.GenerateFiles(g.root, g.pattern as string, g.ignore)).Flatten();
     if (!copyNode) files = files.Where((f: FileSystemInstance) => !f.sourceAbsolutePath.includes("node_modules"));
 
     //remove package.lock
