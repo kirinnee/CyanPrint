@@ -50,8 +50,8 @@ module.exports = async function (name, chalk, inquirer, autoInquirer, autoMap, e
             {cmd: ["echo", "hey you 2!"]},
             {cmd: ["echo", "hey you 3!"]},
         ],
-        globs: {root: ".", pattern: "**/*.*", ignore: ""},
-        npm: name,
+        globs: {root: ".", pattern: "**/*.*", ignore: "**/Ignored folder/**/*.*"},
+        npm: false,
         docs: {
             data: {
                 author: "kirinnee",

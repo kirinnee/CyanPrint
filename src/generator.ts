@@ -35,6 +35,7 @@ import inquirer, {Inquirer} from "inquirer";
 import {spawn} from "child_process";
 import {Dependency} from "./Depedency";
 import {GuidGenerator} from "./classLibrary/GuidGenerator";
+import deleteEmpty from "delete-empty";
 
 
 export async function GenerateTemplate(dep: Dependency, templatePath: string, folderName: string, settings: CyanSafe, copyNode: boolean): Promise<string> {
@@ -59,7 +60,6 @@ export async function GenerateTemplate(dep: Dependency, templatePath: string, fo
     console.log(chalk.cyanBright("Preparing template, please wait..."));
     //Setup GlobFactory to read streams
     let globFactory: GlobFactory = new GlobFactory(dep.util, fileFactory);
-
 
 
     //Create all relevant parsing strategy
@@ -180,6 +180,13 @@ export async function GenerateTemplate(dep: Dependency, templatePath: string, fo
             }
         }
     }
+
+    console.log(chalk.cyanBright("Clearing residue directories..."));
+    const deleted = await deleteEmpty(folderName);
+    if (deleted)
+        console.log(chalk.greenBright(`Deleted ${deleted.join(", ")}`));
+    else
+        console.log(chalk.greenBright("No residue directories found!"));
     return chalk.greenBright("Complete~!!");
 }
 
@@ -196,6 +203,7 @@ export async function Interrogate(dep: Dependency, autoInquirer: IAutoInquire, t
     let Template: (nameFolder: string, c: Chalk, inq: Inquirer, autoInquire: IAutoInquire, autoMap: IAutoMapper, execute: Execute) => Promise<Cyan>
         = eval(`require("${relConfigPath.ReplaceAll("\\\\", "/")}")`);
     let rawSettings: Cyan = await Template(folderName.ReplaceAll("\\\\", "/").split('/').Last()!, chalk, inquirer, autoInquirer, dep.autoMapper, execute);
+
     // Escape and normalize raw settings to "safe"
     return cyanSafe.Save(rawSettings);
 }
