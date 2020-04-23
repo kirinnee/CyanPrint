@@ -104,10 +104,13 @@ export class Utility {
         return ret;
     }
 
-    async ASafeWriteFile(filePath: string, content: string | Buffer, binary: boolean, callback?: Function): Promise<void> {
-        if (fs.existsSync(filePath)) return;
+    ASafeWriteFile(filePath: string, content: string | Buffer, binary: boolean, callback?: Function): Promise<void> {
+        if (fs.existsSync(filePath)) return new Promise<void>(resolve => {
+            if (typeof callback === "function") callback();
+            resolve()
+        });
         this.EnsureDirectory(filePath);
-        return await new Promise<void>(function (resolve) {
+        return new Promise<void>(function (resolve) {
             if (binary) {
                 fs.writeFile(filePath, content, function (err) {
                     if (err) console.log(err);
@@ -125,10 +128,13 @@ export class Utility {
         });
     }
 
-    async ASafeCreateDirectory(filePath: string, callback?: Function): Promise<void> {
-        if (fs.existsSync(filePath)) return;
+    ASafeCreateDirectory(filePath: string, callback?: Function): Promise<void> {
+        if (fs.existsSync(filePath)) return new Promise<void>(r => {
+            if (typeof callback === "function") callback();
+            r();
+        });
         this.EnsureDirectory(filePath);
-        return await new Promise<void>(function (resolve) {
+        return new Promise<void>(function (resolve) {
             fs.mkdir(filePath, function (err) {
                 if (err) console.log(err);
                 if (typeof callback === "function") callback();
