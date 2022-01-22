@@ -42,7 +42,7 @@
     "graceful-fs": "^4.1.11",
     "inquirer": "^6.2.0",
     "isbinaryfile": "^4.0.5",
-    "node-fetch": "^2.3.0",
+    "node-fetch": "^3.1.1",
     "relaxed-json": "^1.0.1",
     "rimraf": "^2.6.2"
   },
